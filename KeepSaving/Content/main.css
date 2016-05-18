@@ -1,9 +1,15 @@
 /* light blue */
 /* dark blue */
-/* white */
+/* green */
 /* blue */
 /* FONTS */
-/* line 24, main.scss */
+/* line 25, main.scss */
+.fancy-border, nav.navbar.navbar-default, .content {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+/* line 30, main.scss */
 body {
   box-sizing: border-box;
   font-size: 16px;
@@ -11,7 +17,7 @@ body {
   background: #D5E5EA;
 }
 
-/* line 32, main.scss */
+/* line 38, main.scss */
 .brand {
   text-align: center;
   padding: 10px;
@@ -19,51 +25,52 @@ body {
   font-size: 2.4em;
 }
 
-/* line 39, main.scss */
+/* line 45, main.scss */
 a.navbar-brand {
   display: none;
 }
 
-/* line 43, main.scss */
+/* line 49, main.scss */
 nav.navbar.navbar-default {
   width: 100%;
   border-radius: 0;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
   background: #005F6B;
 }
 
-/* line 52, main.scss */
+/* line 56, main.scss */
 .navbar-nav {
-  display: table;
-  margin: 0 auto;
   float: none;
 }
-/* line 57, main.scss */
+/* line 59, main.scss */
 .navbar-nav li a {
   font-family: "Montserrat", sans-serif;
   font-size: 1.3em;
 }
 
-/* line 64, main.scss */
+/* line 66, main.scss */
 .navbar-default .navbar-nav > li > a {
   color: #fff;
 }
 
-/* line 68, main.scss */
+/* line 70, main.scss */
 .navbar-default .navbar-nav > li > a:hover {
   color: #fff;
   background-color: #171535;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
+/* line 76, main.scss */
+.account-nav {
+  float: right;
+}
+
 @media screen and (max-width: 768px) {
-  /* line 75, main.scss */
+  /* line 81, main.scss */
   .brand {
     display: none;
   }
 
-  /* line 79, main.scss */
+  /* line 85, main.scss */
   a.navbar-brand {
     float: left;
     display: block;
@@ -71,39 +78,55 @@ nav.navbar.navbar-default {
     font-size: 2em;
   }
 
-  /* line 86, main.scss */
+  /* line 92, main.scss */
   .navbar-default .navbar-brand {
     color: #fff;
   }
 
-  /* line 90, main.scss */
+  /* line 96, main.scss */
   .navbar-default .navbar-brand:hover {
     color: #171535;
   }
+
+  /* line 100, main.scss */
+  .account-nav {
+    float: none;
+    width: 100%;
+    padding-left: 15px;
+  }
+  /* line 104, main.scss */
+  .account-nav a {
+    width: 100%;
+  }
 }
-/* line 96, main.scss */
+/* line 111, main.scss */
 p, h2, h3, ul li, a, table {
   font-family: "Roboto", "Arial", sans-serif;
 }
 
-/* line 100, main.scss */
+/* line 115, main.scss */
+h2, h3 {
+  margin: 5px;
+}
+
+/* line 119, main.scss */
 a {
   color: #005F6B;
 }
 
-/* line 104, main.scss */
+/* line 123, main.scss */
 a:hover {
   color: #171535;
   text-decoration: none;
 }
 
-/* line 109, main.scss */
+/* line 128, main.scss */
 .content {
-  background: #fff;
-  padding: 5px;
-  border-radius: 15px;
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.3);
+  background: #AFD6AB;
+  padding: 15px;
 }
-/* line 113, main.scss */
+/* line 133, main.scss */
 .content p {
   margin: 5px;
 }

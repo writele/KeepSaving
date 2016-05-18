@@ -80,3 +80,8 @@
 \\Mac\Home\Web Development\Coder Foundry\KeepSaving\KeepSaving\obj\Debug\KeepSaving.csprojResolveAssemblyReference.cache
 \\Mac\Home\Web Development\Coder Foundry\KeepSaving\KeepSaving\obj\Debug\KeepSaving.dll
 \\Mac\Home\Web Development\Coder Foundry\KeepSaving\KeepSaving\obj\Debug\KeepSaving.pdb
+\\Mac\Home\Web Development\Coder Foundry\KeepSaving\KeepSaving\bin\SendGrid.dll
+\\Mac\Home\Web Development\Coder Foundry\KeepSaving\KeepSaving\bin\SendGrid.SmtpApi.dll
+\\Mac\Home\Web Development\Coder Foundry\KeepSaving\KeepSaving\bin\SendGridMail.dll
+\\Mac\Home\Web Development\Coder Foundry\KeepSaving\KeepSaving\bin\System.Net.Http.Formatting.dll
+\\Mac\Home\Web Development\Coder Foundry\KeepSaving\KeepSaving\bin\System.Net.Http.Formatting.xml
