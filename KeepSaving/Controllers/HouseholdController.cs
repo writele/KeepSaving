@@ -1,4 +1,5 @@
-﻿using KeepSaving.Models;
+﻿using KeepSaving.Helpers;
+using KeepSaving.Models;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
@@ -8,18 +9,13 @@ using System.Web.Mvc;
 
 namespace KeepSaving.Controllers
 {
+    [AuthorizeHouseholdRequired]
     public class HouseholdController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Household
         public ActionResult Index()
-        {
-            return View();
-        }
-
-        // GET: Household/JoinHousehold
-        public ActionResult JoinHousehold()
         {
             return View();
         }

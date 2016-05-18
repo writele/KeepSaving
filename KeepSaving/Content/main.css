@@ -106,7 +106,7 @@ p, h2, h3, ul li, a, table {
 
 /* line 115, main.scss */
 h2, h3 {
-  margin: 5px;
+  margin: 5px 0;
 }
 
 /* line 119, main.scss */
