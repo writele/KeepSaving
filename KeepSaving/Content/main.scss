@@ -1,0 +1,116 @@
+﻿$bg-color: #D5E5EA;/* light blue */
+$primary-color: #005F6B; /* dark blue */
+$secondary-color: #fff; /* white */
+
+$secondary-color-hover: #171535; /* blue */
+
+/* FONTS */
+$header-font: 'Lobster', 'Times New Roman', serif;
+$subheader-font:'Montserrat', sans-serif;
+$content-font: 'Roboto', 'Arial', sans-serif;
+
+@mixin button($bg-color, $font-color, $shadow-color) {
+    background: $bg-color;
+    color: $font-color;
+    box-shadow: 0 6px $shadow-color;
+    border-radius: 5px;
+}
+
+@mixin button-hover($shadow-color) {
+    box-shadow: 0 4px $shadow-color;
+    top: 2px;
+}
+
+body {
+    box-sizing: border-box;
+    font-size: 16px;
+    font-family: $content-font;
+    background: $bg-color;
+}
+
+// Navigation
+.brand {
+    text-align: center;
+    padding: 10px;
+    font-family: $header-font;
+    font-size: 2.4em;
+}
+
+a.navbar-brand {
+    display: none;
+}
+
+nav.navbar.navbar-default {
+    width: 100%;
+    border-radius: 0;
+
+    border: 1px solid rgba(0,0,0,0.1);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+    background: $primary-color;
+}
+
+.navbar-nav {
+    display: table;
+    margin: 0 auto;
+    float: none;
+    li {
+        a {
+            font-family: $subheader-font;
+            font-size: 1.3em;
+        }
+    }
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: $secondary-color;
+}
+
+.navbar-default .navbar-nav > li > a:hover {
+    color: $secondary-color;
+    background-color: $secondary-color-hover;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+}
+//Rearrange heading at smaller screen sizes
+@media screen and (max-width: 768px) {
+    .brand {
+        display: none;
+    }
+
+    a.navbar-brand {
+        float: left;
+        display: block;
+        font-family: $header-font;
+        font-size: 2em;
+    }
+
+    .navbar-default .navbar-brand {
+        color: $secondary-color;
+    }
+
+    .navbar-default .navbar-brand:hover {
+        color: $secondary-color-hover;
+    }
+}
+
+// Fonts
+p, h2, h3, ul li, a, table {
+    font-family: $content-font;
+}
+
+a {
+    color: $primary-color;
+}
+
+a:hover {
+    color: $secondary-color-hover;
+    text-decoration: none;
+}
+
+.content {
+    background: $secondary-color;
+    padding: 5px;
+    border-radius: 15px;
+    p {
+        margin: 5px;
+    }
+}
