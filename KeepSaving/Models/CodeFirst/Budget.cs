@@ -16,7 +16,7 @@ namespace KeepSaving.Models
 
         public decimal Amount { get; set; }
         public DateTimeOffset Created { get; set; }
-        public DateTimeOffset Modified { get; set; }
+        public DateTimeOffset? Modified { get; set; }
 
         public int HouseholdId { get; set; }
 

@@ -1,6 +1,7 @@
-/* light blue */
+/* light green */
 /* dark blue */
-/* green */
+/*white */
+/* medium green */
 /* blue */
 /* FONTS */
 /* line 25, main.scss */
@@ -14,7 +15,7 @@ body {
   box-sizing: border-box;
   font-size: 16px;
   font-family: "Roboto", "Arial", sans-serif;
-  background: #D5E5EA;
+  background: #EFFDE9;
 }
 
 /* line 38, main.scss */
@@ -23,54 +24,55 @@ body {
   padding: 10px;
   font-family: "Lobster", "Times New Roman", serif;
   font-size: 2.4em;
+  background-color: #AFD6AB;
 }
 
-/* line 45, main.scss */
+/* line 46, main.scss */
 a.navbar-brand {
   display: none;
 }
 
-/* line 49, main.scss */
+/* line 50, main.scss */
 nav.navbar.navbar-default {
   width: 100%;
   border-radius: 0;
   background: #005F6B;
 }
 
-/* line 56, main.scss */
+/* line 57, main.scss */
 .navbar-nav {
   float: none;
 }
-/* line 59, main.scss */
+/* line 60, main.scss */
 .navbar-nav li a {
   font-family: "Montserrat", sans-serif;
   font-size: 1.3em;
 }
 
-/* line 66, main.scss */
+/* line 67, main.scss */
 .navbar-default .navbar-nav > li > a {
   color: #fff;
 }
 
-/* line 70, main.scss */
+/* line 71, main.scss */
 .navbar-default .navbar-nav > li > a:hover {
   color: #fff;
   background-color: #171535;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
-/* line 76, main.scss */
+/* line 77, main.scss */
 .account-nav {
   float: right;
 }
 
 @media screen and (max-width: 768px) {
-  /* line 81, main.scss */
+  /* line 82, main.scss */
   .brand {
     display: none;
   }
 
-  /* line 85, main.scss */
+  /* line 86, main.scss */
   a.navbar-brand {
     float: left;
     display: block;
@@ -78,55 +80,55 @@ nav.navbar.navbar-default {
     font-size: 2em;
   }
 
-  /* line 92, main.scss */
+  /* line 93, main.scss */
   .navbar-default .navbar-brand {
     color: #fff;
   }
 
-  /* line 96, main.scss */
+  /* line 97, main.scss */
   .navbar-default .navbar-brand:hover {
     color: #171535;
   }
 
-  /* line 100, main.scss */
+  /* line 101, main.scss */
   .account-nav {
     float: none;
     width: 100%;
     padding-left: 15px;
   }
-  /* line 104, main.scss */
+  /* line 105, main.scss */
   .account-nav a {
     width: 100%;
   }
 }
-/* line 111, main.scss */
+/* line 112, main.scss */
 p, h2, h3, ul li, a, table {
   font-family: "Roboto", "Arial", sans-serif;
 }
 
-/* line 115, main.scss */
+/* line 116, main.scss */
 h2, h3 {
   margin: 5px 0;
 }
 
-/* line 119, main.scss */
+/* line 120, main.scss */
 a {
   color: #005F6B;
 }
 
-/* line 123, main.scss */
+/* line 124, main.scss */
 a:hover {
   color: #171535;
   text-decoration: none;
 }
 
-/* line 128, main.scss */
+/* line 129, main.scss */
 .content {
   box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.3);
   background: #AFD6AB;
   padding: 15px;
 }
-/* line 133, main.scss */
+/* line 134, main.scss */
 .content p {
   margin: 5px;
 }

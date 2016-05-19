@@ -1,7 +1,7 @@
-﻿$bg-color: #D5E5EA;/* light blue */
+﻿$bg-color:  #EFFDE9; /* light green */
 $primary-color: #005F6B; /* dark blue */
-$secondary-color: #fff;
-$content-bg-color: #AFD6AB; /* green */
+$secondary-color: #fff; /*white */
+$content-bg-color: #AFD6AB;/* medium green */
 
 $secondary-color-hover: #171535; /* blue */
 
@@ -40,6 +40,7 @@ body {
     padding: 10px;
     font-family: $header-font;
     font-size: 2.4em;
+    background-color: $content-bg-color;
 }
 
 a.navbar-brand {

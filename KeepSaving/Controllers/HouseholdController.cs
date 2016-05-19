@@ -4,18 +4,25 @@ using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
 namespace KeepSaving.Controllers
 {
-    [AuthorizeHouseholdRequired]
     public class HouseholdController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        [AuthorizeHouseholdRequired]
         // GET: Household
         public ActionResult Index()
+        {
+            return View();
+        }
+
+        // GET: Household/JoinHousehold
+        public ActionResult JoinHousehold()
         {
             return View();
         }
@@ -39,7 +46,7 @@ namespace KeepSaving.Controllers
         // POST: Household/CreateHousehold
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateHousehold([Bind(Include = "Name")] Household household)
+        public async Task<ActionResult> CreateHousehold([Bind(Include = "Name")] Household household)
         {
             if (ModelState.IsValid)
             {
@@ -50,8 +57,19 @@ namespace KeepSaving.Controllers
                 db.SaveChanges();
                 var thisHousehold = db.Households.Find(household.Id);
                 thisHousehold.Users.Add(user);
-
+                Budget budget = new Budget();
+                budget.Created = System.DateTimeOffset.Now;
+                budget.Amount = 0;
+                budget.HouseholdId = thisHousehold.Id;
+                budget.Household = thisHousehold;
+                db.Budgets.Add(budget);
+                thisHousehold.Budget = budget;
+                thisHousehold.BudgetId = budget.Id;
+                db.Households.Attach(thisHousehold);
+                db.Entry(thisHousehold).Property("BudgetId").IsModified = true;
                 db.SaveChanges();
+                //Refresh cookies to add new household Id
+                await ControllerContext.HttpContext.RefreshAuthentication(user);
                 return RedirectToAction("Index");
             }
 

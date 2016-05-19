@@ -13,12 +13,6 @@ namespace KeepSaving.Controllers
             return View();
         }
 
-        // GET: Household/JoinHousehold
-        public ActionResult JoinHousehold()
-        {
-            return View();
-        }
-
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

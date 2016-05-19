@@ -28,7 +28,7 @@ namespace KeepSaving.Helpers
             }
             else
             {
-                filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Home", action = "JoinHousehold" }));
+                filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Household", action = "JoinHousehold" }));
             }
             
         }
