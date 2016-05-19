@@ -21,6 +21,7 @@ namespace KeepSaving.Controllers
         {
             var householdId = User.Identity.GetHouseholdId();
             Household household = db.Households.Find(householdId);
+            ViewBag.Message = TempData["Message"];
             return View(household);
         }
 
@@ -85,18 +86,30 @@ namespace KeepSaving.Controllers
 
         // POST: Household/InviteUser/5
         [HttpPost]
-        public ActionResult InviteUser(int id, FormCollection collection)
+        public async Task<ActionResult> InviteUser(string inviteEmail)
         {
-            try
+            if (!string.IsNullOrWhiteSpace(inviteEmail))
             {
-                // TODO: Add update logic here
+                int? householdId = User.Identity.GetHouseholdId();
+                string userId = User.Identity.GetUserId();
+                var user = db.Users.Find(userId);
+                HouseholdInvitation invitation = new HouseholdInvitation();
+                invitation.InviteCode = Guid.NewGuid();
+                invitation.Email = inviteEmail;
+                invitation.HouseholdId = householdId;
+                db.HouseholdInvitations.Add(invitation);
+                db.SaveChanges();
 
-                return RedirectToAction("Index");
+                var svc = new EmailService();
+                var msg = new IdentityMessage();
+                msg.Destination = inviteEmail;
+                msg.Subject = user.FullName + " has invited you to join KeepSaving";
+                msg.Body = user.FullName + " has invited you to join their household on KeepSaving! KeepSaving is an application for easily managing your transactions and financial budgeting. To join " + user.FullName + "'s household, visit keepsaving.azurewebsites.net and enter the following invitation code: " + invitation.InviteCode;
+                await svc.SendAsync(msg);
+                TempData["Message"] = "Your invitation has been sent!";
             }
-            catch
-            {
-                return View();
-            }
+
+            return RedirectToAction("Index");
         }
 
         // POST: Household/LeaveHousehold/5

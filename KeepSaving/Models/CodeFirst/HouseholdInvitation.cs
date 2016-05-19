@@ -9,7 +9,7 @@ namespace KeepSaving.Models
     {
         public int Id { get; set; }
         public Guid InviteCode { get; set; }
-        public int HouseholdId { get; set; }
+        public int? HouseholdId { get; set; }
         public string Email { get; set; }
     }
 }
