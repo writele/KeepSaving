@@ -10,6 +10,7 @@ using KeepSaving.Models;
 
 namespace KeepSaving.Controllers
 {
+    [RequireHttps]
     [Authorize]
     public class ManageController : Controller
     {

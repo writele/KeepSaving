@@ -51,6 +51,7 @@ namespace KeepSaving.Models
         public DbSet<Account> Accounts { get; set; }
         public DbSet<BudgetCategory> BudgetCategories { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<HouseholdInvitation> HouseholdInvitations { get; set; }
 
     }
 }

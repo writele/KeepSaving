@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace KeepSaving.Controllers
 {
+    [RequireHttps]
     public class HouseholdController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -50,19 +51,23 @@ namespace KeepSaving.Controllers
         {
             if (ModelState.IsValid)
             {
+                //Create household
                 household.Create = System.DateTimeOffset.Now;
-                var userId = User.Identity.GetUserId();
-                var user = db.Users.Find(userId);
                 db.Households.Add(household);
                 db.SaveChanges();
+                //Add user to household
+                var userId = User.Identity.GetUserId();
+                var user = db.Users.Find(userId);
                 var thisHousehold = db.Households.Find(household.Id);
                 thisHousehold.Users.Add(user);
+                //Create budget for household
                 Budget budget = new Budget();
                 budget.Created = System.DateTimeOffset.Now;
                 budget.Amount = 0;
                 budget.HouseholdId = thisHousehold.Id;
                 budget.Household = thisHousehold;
                 db.Budgets.Add(budget);
+                //Update household to include budget
                 thisHousehold.Budget = budget;
                 thisHousehold.BudgetId = budget.Id;
                 db.Households.Attach(thisHousehold);

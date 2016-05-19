@@ -54,15 +54,15 @@ namespace KeepSaving
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "242353142797281",
+               appSecret: "77eb2b8cd71dfcdf4242db42fb0319c9");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "509241175365-vi8pecrc3tvso2hm79huleo3of2q0blr.apps.googleusercontent.com",
+                ClientSecret = "-BlsG9d5a-51y0gRZFDW4KRN"
+            });
         }
     }
 }
