@@ -5,6 +5,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
+using Owin.Security.Providers.GitHub;
 using KeepSaving.Models;
 
 namespace KeepSaving
@@ -63,6 +64,8 @@ namespace KeepSaving
                 ClientId = "509241175365-vi8pecrc3tvso2hm79huleo3of2q0blr.apps.googleusercontent.com",
                 ClientSecret = "-BlsG9d5a-51y0gRZFDW4KRN"
             });
+
+            app.UseGitHubAuthentication("1cb9e53572f23b90a5eb", "cba4cf6a552b8399f00452ce2a6a94fe41d2423e");
         }
     }
 }

@@ -87,3 +87,4 @@
 \\Mac\Home\Web Development\Coder Foundry\KeepSaving\KeepSaving\bin\System.Net.Http.Formatting.xml
 \\Mac\Home\Web Development\Coder Foundry\KeepSaving\KeepSaving\obj\Debug\KeepSaving.Migrations.HouseholdInvitation.resources
 \\Mac\Home\Web Development\Coder Foundry\KeepSaving\KeepSaving\obj\Debug\KeepSaving.csproj.GenerateResource.Cache
+\\Mac\Home\Web Development\Coder Foundry\KeepSaving\KeepSaving\bin\Owin.Security.Providers.GitHub.dll
