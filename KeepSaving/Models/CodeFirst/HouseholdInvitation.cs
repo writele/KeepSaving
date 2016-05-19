@@ -11,5 +11,6 @@ namespace KeepSaving.Models
         public Guid InviteCode { get; set; }
         public int? HouseholdId { get; set; }
         public string Email { get; set; }
+        public bool Expired { get; set; }
     }
 }

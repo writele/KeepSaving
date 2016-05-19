@@ -33,18 +33,29 @@ namespace KeepSaving.Controllers
 
         // POST: Household/JoinHousehold
         [HttpPost]
-        public ActionResult JoinHousehold(FormCollection collection)
+        public async Task<ActionResult> JoinHousehold(Guid inviteCode)
         {
-            try
+            var invite = db.HouseholdInvitations.FirstOrDefault(i => i.InviteCode == inviteCode);
+            var userId = User.Identity.GetUserId();
+            var user = db.Users.Find(userId);
+            if(invite != null)
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                // Not changing?
+                invite.Expired = true;
+                db.HouseholdInvitations.Attach(invite);
+                db.Entry(invite).Property("Expired").IsModified = true;
+                var household = db.Households.Find(invite.HouseholdId);
+                db.SaveChanges();
+                if(household != null)
+                {
+                    household.Users.Add(user);
+                    db.SaveChanges();
+                    await ControllerContext.HttpContext.RefreshAuthentication(user);
+                    return RedirectToAction("Index");
+                }
             }
-            catch
-            {
-                return View();
-            }
+            ViewBag.Message = "That invitation is invalid or has expired.";
+            return View();
         }
 
         // POST: Household/CreateHousehold
