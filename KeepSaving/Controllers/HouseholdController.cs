@@ -19,7 +19,9 @@ namespace KeepSaving.Controllers
         // GET: Household
         public ActionResult Index()
         {
-            return View();
+            var householdId = User.Identity.GetHouseholdId();
+            Household household = db.Households.Find(householdId);
+            return View(household);
         }
 
         // GET: Household/JoinHousehold

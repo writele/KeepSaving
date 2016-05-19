@@ -12,13 +12,15 @@ namespace KeepSaving.Helpers
 {
     public static class Extensions
     {
-        public static string GetHouseholdId(this IIdentity user)
+        public static int? GetHouseholdId(this IIdentity user)
         {
             var claimsIdentity = (ClaimsIdentity)user;
             var HouseholdClaim = claimsIdentity.Claims.FirstOrDefault(c => c.Type == "HouseholdId");
 
-            if (HouseholdClaim != null)
-                return HouseholdClaim.Value;
+            if (HouseholdClaim != null) {
+                int value = Int32.Parse(HouseholdClaim.Value);
+                return value;
+            }
             else
                 return null;
         }
