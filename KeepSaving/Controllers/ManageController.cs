@@ -16,6 +16,7 @@ namespace KeepSaving.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public ManageController()
         {
@@ -210,6 +211,45 @@ namespace KeepSaving.Controllers
                 await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
             }
             return RedirectToAction("Index", new { Message = ManageMessageId.RemovePhoneSuccess });
+        }
+
+        //
+        // GET: /Manage/ChangeName
+        public ActionResult ChangeName()
+        {
+            var userId = User.Identity.GetUserId();
+            var user = db.Users.Find(userId);
+            ChangeNameViewModel model = new ChangeNameViewModel();
+            model.OldFirstName = user.FirstName;
+            model.OldLastName = user.LastName;
+
+            return View(model);
+        }
+
+        //
+        // POST: /Manage/ChangeName
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ChangeName(string NewFirstName, string NewLastName)
+        {
+            if (ModelState.IsValid)
+            {
+                var userId = User.Identity.GetUserId();
+                var user = await UserManager.FindByIdAsync(userId);
+                user.FirstName = NewFirstName;
+                user.LastName = NewLastName;
+                var result = await UserManager.UpdateAsync(user);
+
+                if (!result.Succeeded)
+                {
+                    AddErrors(result);
+                }
+
+                db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("ChangeName");
         }
 
         //

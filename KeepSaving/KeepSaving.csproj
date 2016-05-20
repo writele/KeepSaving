@@ -312,6 +312,7 @@
     <Content Include="Views\Account\ConfirmationSent.cshtml" />
     <Content Include="Views\Household\Index.cshtml" />
     <Content Include="Views\Household\JoinHousehold.cshtml" />
+    <Content Include="Views\Manage\ChangeName.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
