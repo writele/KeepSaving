@@ -1,0 +1,38 @@
+﻿@model KeepSaving.Models.Budget
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <h2>Budget</h2>
+        <h3>Total Monthly Budget: @Model.Amount</h3>
+        <hr />
+        <h3>Budgeted Expenses</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Amount</th>
+                    <th>Annual Frequency</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.BudgetItems)
+                {
+                    <tr>
+                        <td>@item.BudgetCategory.Name</td>
+                        <td>@item.Amount</td>
+                        <td>@item.Frequency</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-offset-1 col-md-5">
+
+        @*@Html.Partial("_AddBudgetItem")*@
+
+    </div>
+</div>
