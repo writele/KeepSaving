@@ -35,20 +35,19 @@ namespace KeepSaving.Controllers
 
         // POST: Household/JoinHousehold
         [HttpPost]
-        public async Task<ActionResult> JoinHousehold(Guid inviteCode)
+        public async Task<ActionResult> JoinHousehold(Guid? inviteCode)
         {
             var invite = db.HouseholdInvitations.FirstOrDefault(i => i.InviteCode == inviteCode);
             var userId = User.Identity.GetUserId();
             var user = db.Users.Find(userId);
-            if(invite != null)
+            if (invite != null && invite.Expired == false)
             {
-                // Not changing?
                 invite.Expired = true;
                 db.HouseholdInvitations.Attach(invite);
                 db.Entry(invite).Property("Expired").IsModified = true;
-                var household = db.Households.Find(invite.HouseholdId);
                 db.SaveChanges();
-                if(household != null)
+                var household = db.Households.Find(invite.HouseholdId);
+                if (household != null)
                 {
                     household.Users.Add(user);
                     db.SaveChanges();
