@@ -1,6 +1,7 @@
 ﻿using KeepSaving.Helpers;
 using KeepSaving.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace KeepSaving.Controllers
             var householdId = User.Identity.GetHouseholdId();
             Household household = db.Households.Find(householdId);
             ViewBag.Message = TempData["Message"];
+            ViewBag.Error = TempData["Error"];
             return View(household);
         }
 
@@ -125,13 +127,23 @@ namespace KeepSaving.Controllers
 
         // POST: Household/LeaveHousehold/5
         [HttpPost]
-        public ActionResult LeaveHousehold(int id, FormCollection collection)
+        public async Task<ActionResult> LeaveHousehold(bool? confirmLeaveHousehold)
         {
-            //initialize identity manager
-            //get user
-            //change user.HouseholdId to null
-            //save db changes
-            return RedirectToAction("JoinHousehold");
+            var userId = User.Identity.GetUserId();
+            var user = db.Users.Find(userId);
+            var householdId = User.Identity.GetHouseholdId();
+            var household = db.Households.Find(householdId);
+
+            if (confirmLeaveHousehold != null && household.Users.Contains(user))
+            {
+                household.Users.Remove(user);
+                db.SaveChanges();
+                await ControllerContext.HttpContext.RefreshAuthentication(user);
+                return RedirectToAction("JoinHousehold");
+            }
+
+            TempData["Error"] = "Please confirm you want to leave this household.";
+            return RedirectToAction("Index");
         }
     }
 }

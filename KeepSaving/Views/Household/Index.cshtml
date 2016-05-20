@@ -60,6 +60,7 @@
 
         <div class="col-md-12">
             <h3>Leave</h3>
+            <p class="col-xs-12 text-danger">@ViewBag.Error</p>
             <p>Leave your current household and start another one.</p>
             @using (Html.BeginForm("LeaveHousehold", "Household"))
             {
@@ -70,7 +71,7 @@
                     @Html.HiddenFor(model => model.Id)
 
                     <div class="form-group col-xs-12">                   
-                        <input type="checkbox" name="confirmLeaveHousehold" class="col-xs-1" /> 
+                        <input type="checkbox" name="confirmLeaveHousehold" value="true" class="col-xs-1" /> 
                         <p class="col-xs-10">I understand that I will no longer have access to my current household's accounts.</p>
                     </div>
                     <div class="form-group">
