@@ -21,16 +21,24 @@ namespace KeepSaving.Controllers
             return View(model);
         }
 
-        //GET: Budget/_AddBudgetItem
-        public ActionResult _AddBudgetItem()
-        {
-            return PartialView();
-        }
-
         //POST: Add Budget Item
         [HttpPost]
-        public ActionResult AddBudgetItem()
+        public ActionResult AddBudgetItem([Bind(Include = "Amount, Frequency")] BudgetItem item, string CategoryName)
         {
+            if (ModelState.IsValid)
+            {
+                var householdId = User.Identity.GetHouseholdId();
+                var budget = db.Budgets.FirstOrDefault(b => b.HouseholdId == householdId);
+                item.Created = DateTimeOffset.Now;
+                BudgetCategory category = new BudgetCategory();
+                category.Name = CategoryName;
+                category.BudgetItemId = item.Id;
+                category.BudgetItem = item;
+                db.BudgetItems.Add(item);
+                db.BudgetCategories.Add(category);
+                budget.BudgetItems.Add(item);
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 
