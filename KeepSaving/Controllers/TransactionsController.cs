@@ -24,7 +24,27 @@ namespace KeepSaving.Controllers
         // GET: Transaction/Details/2
         public ActionResult Details(int? id)
         {
-            return View();
+            try {
+                var model = db.Accounts.Find(id);
+                return View(model);
+            }
+            catch
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        // GET: Add Transaction
+        public ActionResult _AddTransaction(int? id)
+        {
+            try {
+                ViewBag.AccountId = id;
+                return PartialView();
+            }
+            catch
+            {
+                return PartialView("_Error");
+            }
         }
 
         //POST: Transaction/RenameAccount

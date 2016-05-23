@@ -275,6 +275,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\Transactions.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="template.html" />
     <Content Include="Web.config" />
@@ -320,6 +321,8 @@
     <Content Include="Views\Transactions\Details.cshtml" />
     <Content Include="Views\Budget\Index.cshtml" />
     <Content Include="Views\Budget\_AddBudgetItem.cshtml" />
+    <Content Include="Views\Transactions\_AddTransaction.cshtml" />
+    <Content Include="Views\Transactions\_Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,9 +1,78 @@
 ﻿@model KeepSaving.Models.Account
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Transactions";
 }
 
 <h2>Transactions in @Model.Name</h2>
 
+<div class="row">
+    <div class="col-md-4 content" id="action">
 
+
+    </div>
+    <div class="col-md-8">
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>
+                        Date
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                    <th>
+                        Category
+                    </th>
+                    <th>
+                        Amount
+                    </th>
+                    <th>
+                        Reconciled
+                    </th>
+                    <th>
+                        Updated By
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                    @foreach (var item in Model.Transactions)
+                    {
+                        <tr>
+                            <td>
+                                Edit | Delete
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Created)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.BudgetCategory.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Amount)
+                            </td>
+                            <td>
+                                <input type="checkbox" checked="@item.IsReconciled" />
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Author.FullName)
+                            </td>
+                        </tr>
+                    }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#action').load('@Url.Action("_AddTransaction", "Transactions", new { id = Model.Id })');
+        });
+    </script>
+}
