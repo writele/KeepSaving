@@ -30,13 +30,23 @@ namespace KeepSaving.Controllers
                 var householdId = User.Identity.GetHouseholdId();
                 var budget = db.Budgets.FirstOrDefault(b => b.HouseholdId == householdId);
                 item.Created = DateTimeOffset.Now;
+                db.BudgetItems.Add(item);
+                budget.BudgetItems.Add(item);    
+                      
+                db.SaveChanges();
+
+                budget.Amount = budget.Amount + (item.Amount * item.Frequency / 12);
+                db.Entry(budget).Property("Amount").IsModified = true;
+                db.Budgets.Attach(budget);
+                db.SaveChanges();
+
+                // need to validate that category name is unique
                 BudgetCategory category = new BudgetCategory();
                 category.Name = CategoryName;
                 category.BudgetItemId = item.Id;
-                category.BudgetItem = item;
-                db.BudgetItems.Add(item);
+                category.BudgetItem = item;      
                 db.BudgetCategories.Add(category);
-                budget.BudgetItems.Add(item);
+                          
                 db.SaveChanges();
             }
             return RedirectToAction("Index");
