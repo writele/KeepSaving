@@ -21,39 +21,6 @@ namespace KeepSaving.Controllers
             return View(model);
         }
 
-        // GET: Transaction/Details/2
-        public ActionResult Details(int? id)
-        {
-            try {
-                var model = db.Accounts.Find(id);
-                return View(model);
-            }
-            catch
-            {
-                return RedirectToAction("Index");
-            }
-        }
-
-        // GET: Add Transaction
-        public ActionResult _AddTransaction(int? id)
-        {
-            try {
-                ViewBag.AccountId = id;
-                return PartialView();
-            }
-            catch
-            {
-                return PartialView("_Error");
-            }
-        }
-
-        //POST: Transaction/RenameAccount
-        [HttpPost]
-        public ActionResult RenameAccount()
-        {
-            return RedirectToAction("Index");
-        }
-
         //POST: Transaction/AddAccount
         [HttpPost]
         public ActionResult AddAccount(string AccountName)
@@ -72,18 +39,53 @@ namespace KeepSaving.Controllers
             return RedirectToAction("Index");
         }
 
-        //POST: Transaction/ReconcileAccount
-        [HttpPost]
-        public ActionResult ReconcileAccount()
+        // GET: Transaction/Details/2
+        public ActionResult Details(int? id)
         {
-            return RedirectToAction("Index");
+            try {
+                var model = db.Accounts.Find(id);
+                return View(model);
+            }
+            catch
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        // GET: Add Transaction
+        public ActionResult _AddTransaction(int? id)
+        {
+            try {
+                ViewBag.AccountId = id;
+                var categories = db.BudgetCategories.ToList();
+                ViewBag.BudgetCategories = categories;
+                return PartialView();
+            }
+            catch
+            {
+                return PartialView("_Error");
+            }
         }
 
         //POST: Transaction/AddTransaction
         [HttpPost]
-        public ActionResult AddTransaction()
+        public ActionResult AddTransaction([Bind(Include = "AccountId, Amount, Description, BudgetCategory, TransactionType")] Transaction transaction)
         {
 
+            return RedirectToAction("Index");
+        }
+
+        //POST: Transaction/RenameAccount
+        [HttpPost]
+        public ActionResult RenameAccount()
+        {
+            return RedirectToAction("Index");
+        }
+
+        //POST: Transaction/ReconcileAccount
+        [HttpPost]
+        public ActionResult ReconcileAccount()
+        {
             return RedirectToAction("Index");
         }
 
