@@ -9,7 +9,7 @@ namespace KeepSaving.Models
         public int Id { get; set; }
         public DateTimeOffset Created { get; set; }
         public decimal Amount { get; set; }
-        public int AccountId { get; set; }
+        public int? AccountId { get; set; }
         public int? BudgetCategoryId { get; set; }
         public bool IsReconciled { get; set; }
         public string Description { get; set; }

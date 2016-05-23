@@ -1,5 +1,6 @@
 ﻿using KeepSaving.Helpers;
 using KeepSaving.Models;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,10 +70,22 @@ namespace KeepSaving.Controllers
 
         //POST: Transaction/AddTransaction
         [HttpPost]
-        public ActionResult AddTransaction([Bind(Include = "AccountId, Amount, Description, BudgetCategory, TransactionType")] Transaction transaction)
+        public ActionResult AddTransaction([Bind(Include = "Amount, Description, BudgetCategory, TransactionType")] Transaction transaction, int? AccountId)
         {
+            if (ModelState.IsValid)
+            {
+                transaction.Created = DateTimeOffset.Now;
+                var userId = User.Identity.GetUserId();
+                transaction.AuthorId = userId;
+                db.Transactions.Add(transaction);
+                db.SaveChanges();
 
-            return RedirectToAction("Index");
+                var theTransaction = db.Transactions.Find(transaction.Id);
+                var account = db.Accounts.Find(AccountId);
+                account.Transactions.Add(theTransaction);
+                db.SaveChanges();
+            }
+            return RedirectToAction("Details", new { id = transaction.AccountId});
         }
 
         //POST: Transaction/RenameAccount

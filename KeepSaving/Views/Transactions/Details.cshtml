@@ -45,13 +45,20 @@
                                 Edit | Delete
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Created)
+                                @item.Created.ToString("M/d/yy")
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Description)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.BudgetCategory.Name)
+                                @if(item.BudgetCategory == null)
+                                {
+                                   <span>Income</span>
+                                }
+                                else
+                                {
+                                  @Html.DisplayFor(modelItem => item.BudgetCategory.Name)
+                                }
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Amount)
