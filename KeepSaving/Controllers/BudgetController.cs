@@ -31,13 +31,12 @@ namespace KeepSaving.Controllers
                 var budget = db.Budgets.FirstOrDefault(b => b.HouseholdId == householdId);
                 item.Created = DateTimeOffset.Now;
                 db.BudgetItems.Add(item);
-                budget.BudgetItems.Add(item);    
-                      
+                budget.BudgetItems.Add(item);
                 db.SaveChanges();
 
-                budget.Amount = budget.Amount + (item.Amount * item.Frequency / 12);
-                db.Entry(budget).Property("Amount").IsModified = true;
+                budget.Amount += item.Amount * item.Frequency / 12;
                 db.Budgets.Attach(budget);
+                db.Entry(budget).Property("Amount").IsModified = true;
                 db.SaveChanges();
 
                 // need to validate that category name is unique
@@ -45,8 +44,7 @@ namespace KeepSaving.Controllers
                 category.Name = CategoryName;
                 category.BudgetItemId = item.Id;
                 category.BudgetItem = item;      
-                db.BudgetCategories.Add(category);
-                          
+                db.BudgetCategories.Add(category);                    
                 db.SaveChanges();
             }
             return RedirectToAction("Index");
