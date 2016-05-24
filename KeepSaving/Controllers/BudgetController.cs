@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace KeepSaving.Controllers
 {
+    [AuthorizeHouseholdRequired]
     public class BudgetController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -32,7 +33,6 @@ namespace KeepSaving.Controllers
                 item.Created = DateTimeOffset.Now;
                 db.BudgetItems.Add(item);
                 budget.BudgetItems.Add(item);
-                db.SaveChanges();
 
                 budget.Amount += item.Amount * item.Frequency / 12;
                 db.Budgets.Attach(budget);

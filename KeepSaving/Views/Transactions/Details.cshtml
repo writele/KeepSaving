@@ -80,6 +80,10 @@
     <script>
         $(document).ready(function () {
             $('#action').load('@Url.Action("_AddTransaction", "Transactions", new { id = Model.Id })');
+            $(document).on('change', '#TransactionType', function () {
+                console.log("select changed");
+                $("div#categories").toggle();
+            });
         });
     </script>
 }
