@@ -72,13 +72,17 @@ namespace KeepSaving.Controllers
 
         //POST: Transaction/AddTransaction
         [HttpPost]
-        public ActionResult AddTransaction([Bind(Include = "Amount, Description, BudgetCategory, TransactionType")] Transaction transaction, int? AccountId)
+        public ActionResult AddTransaction([Bind(Include = "Amount, Description, TransactionType")] Transaction transaction, int? AccountId, int? BudgetCategoryId)
         {
             if (ModelState.IsValid)
             {
                 transaction.Created = DateTimeOffset.Now;
                 var userId = User.Identity.GetUserId();
                 transaction.AuthorId = userId;
+                if (transaction.TransactionType == TransactionType.Expense)
+                {
+                    transaction.BudgetCategoryId = BudgetCategoryId;
+                }
                 db.Transactions.Add(transaction);
                 db.SaveChanges();
 
