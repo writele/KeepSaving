@@ -58,7 +58,9 @@ namespace KeepSaving.Controllers
         {
             try {
                 ViewBag.AccountId = id;
-                var categories = db.BudgetCategories.ToList();
+                var householdId = User.Identity.GetHouseholdId();
+                var household = db.Households.Find(householdId);
+                var categories = household.Budget.BudgetItems.Select(b => b.BudgetCategory).Distinct().ToList();
                 ViewBag.BudgetCategories = categories;
                 return PartialView();
             }
