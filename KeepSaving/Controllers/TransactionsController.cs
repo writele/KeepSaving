@@ -70,6 +70,25 @@ namespace KeepSaving.Controllers
             }
         }
 
+        //Helper function: Update account balance
+        public bool UpdateAccountBalance(bool IsIncome, decimal Amount, int? AccountId)
+        {
+            var account = db.Accounts.Find(AccountId);
+            if (IsIncome)
+            {
+                account.Balance += Amount;
+            }
+            else
+            {
+                account.Balance -= Amount;
+            }
+            db.Accounts.Attach(account);
+            db.Entry(account).Property("Balance").IsModified = true;
+            db.SaveChanges();
+
+            return true;
+        }
+
         //POST: Transaction/AddTransaction
         [HttpPost]
         public ActionResult AddTransaction([Bind(Include = "Amount, Description, TransactionType")] Transaction transaction, int? AccountId, int? BudgetCategoryId)
@@ -82,6 +101,11 @@ namespace KeepSaving.Controllers
                 if (transaction.TransactionType == TransactionType.Expense)
                 {
                     transaction.BudgetCategoryId = BudgetCategoryId;
+                    UpdateAccountBalance(false, transaction.Amount, AccountId);
+                }
+                else
+                {
+                    UpdateAccountBalance(true, transaction.Amount, AccountId);
                 }
                 db.Transactions.Add(transaction);
                 db.SaveChanges();
