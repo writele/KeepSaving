@@ -324,6 +324,7 @@
     <Content Include="Views\Transactions\_AddTransaction.cshtml" />
     <Content Include="Views\Transactions\_Error.cshtml" />
     <Content Include="Views\Transactions\_DeleteTransaction.cshtml" />
+    <Content Include="Views\Transactions\_EditTransaction.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

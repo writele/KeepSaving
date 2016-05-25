@@ -118,6 +118,30 @@ namespace KeepSaving.Controllers
             return RedirectToAction("Details", new { id = transaction.AccountId});
         }
 
+        public ActionResult _EditTransaction(int? id)
+        {
+            try
+            {
+                var householdId = User.Identity.GetHouseholdId();
+                var household = db.Households.Find(householdId);
+                var categories = household.Budget.BudgetItems.Select(b => b.BudgetCategory).Distinct().ToList();
+                ViewBag.BudgetCategories = categories;
+                var transaction = db.Transactions.Find(id);
+                return PartialView(transaction);
+            }
+            catch
+            {
+                return PartialView("_Error");
+            }
+        }
+
+        //POST: Transaction/EditTransaction
+        [HttpPost]
+        public ActionResult EditTransaction()
+        {
+            return RedirectToAction("Index");
+        }
+
         // GET: Delete Transaction
         public ActionResult _DeleteTransaction(int? id)
         {
@@ -152,13 +176,6 @@ namespace KeepSaving.Controllers
         //POST: Transaction/ReconcileAccount
         [HttpPost]
         public ActionResult ReconcileAccount()
-        {
-            return RedirectToAction("Index");
-        }
-
-        //POST: Transaction/EditTransaction
-        [HttpPost]
-        public ActionResult EditTransaction()
         {
             return RedirectToAction("Index");
         }

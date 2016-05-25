@@ -43,7 +43,7 @@
                     {
                         <tr>
                             <td>
-                                Edit | <a href="#" class="deleteTransaction" id="@item.Id">Delete</a>
+                                <a href="#" class="editTransaction" id="@item.Id">Edit</a> | <a href="#" class="deleteTransaction" id="@item.Id">Delete</a>
                             </td>
                             <td>
                                 @item.Created.ToString("M/d/yy")
@@ -98,6 +98,7 @@
             }
 
             LoadPartialView('.deleteTransaction', '_deletetransaction');
+            LoadPartialView('.editTransaction', '_edittransaction');
 
         });
     </script>
