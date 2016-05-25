@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col-md-6">
         <h2>Budget</h2>
-        <h3>Total Monthly Budget: @Model.Amount</h3>
+        <h3>Total Monthly Budget: $@Model.Amount</h3>
         <hr />
         <h3>Budgeted Expenses</h3>
         <table class="table table-striped">
@@ -16,6 +16,7 @@
                     <th>Category</th>
                     <th>Amount</th>
                     <th>Annual Frequency</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -23,16 +24,29 @@
                 {
                     <tr>
                         <td>@item.BudgetCategory.Name</td>
-                        <td>@item.Amount</td>
+                        <td>$@item.Amount</td>
                         <td>@item.Frequency</td>
+                        <td>
+                            <a href="#" class="editBudgetItem" id="@item.Id"><i class="glyphicon glyphicon-pencil"></i></a>
+                            <a href="#" class="deleteBudgetItem" id="@item.Id"><i class="glyphicon glyphicon-remove"></i></a>
+</td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
-    <div class="col-md-offset-1 col-md-5">
-
-        @Html.Partial("_AddBudgetItem", new KeepSaving.Models.BudgetItem())
+    <div class="col-md-offset-1 col-md-5 content" id="action">
 
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            $('#action').load('@Url.Action("_AddBudgetItem", "Budget", new { id = Model.Id })');
+
+        });
+    </script>
+    <script src="~/Scripts/LoadPartials.js"></script>
+}

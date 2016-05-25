@@ -22,6 +22,20 @@ namespace KeepSaving.Controllers
             return View(model);
         }
 
+
+        // GET: Add BudgetItem
+        public ActionResult _AddBudgetItem(int? id)
+        {
+            try
+            {
+                return PartialView();
+            }
+            catch
+            {
+                return PartialView("_Error");
+            }
+        }
+
         //POST: Add Budget Item
         [HttpPost]
         public ActionResult AddBudgetItem([Bind(Include = "Amount, Frequency")] BudgetItem item, string CategoryName)
@@ -50,10 +64,45 @@ namespace KeepSaving.Controllers
             return RedirectToAction("Index");
         }
 
+        // GET: Edit BudgetItem
+        public ActionResult _EditBudgetItem(int? id)
+        {
+            try
+            {
+                var model = db.BudgetItems.Find(id);
+                return PartialView(model);
+            }
+            catch
+            {
+                return PartialView("_Error");
+            }
+        }
+
         //POST: Edit Budget Item
         [HttpPost]
-        public ActionResult EditBudgetItem()
+        public ActionResult EditBudgetItem([Bind(Include = "Id, Amount, Frequency, BudgetCategory.Id")] BudgetItem item, string CategoryName)
         {
+            if (ModelState.IsValid)
+            {
+                var householdId = User.Identity.GetHouseholdId();
+                var budget = db.Budgets.FirstOrDefault(b => b.HouseholdId == householdId);
+                item.Modified = DateTimeOffset.Now;
+                db.Entry(item).Property("Amount").IsModified = true;
+                db.Entry(item).Property("Frequency").IsModified = true;
+                db.BudgetItems.Attach(item);
+
+                var oldItem = db.BudgetItems.AsNoTracking().FirstOrDefault(m => m.Id == item.Id);
+                budget.Amount -= oldItem.Amount * oldItem.Frequency / 12;
+                budget.Amount += item.Amount * item.Frequency / 12;
+                db.Budgets.Attach(budget);
+                db.Entry(budget).Property("Amount").IsModified = true;
+                db.SaveChanges();
+
+                // need to validate that category name is unique
+                var category = db.BudgetCategories.Find(item.BudgetCategory.Id);
+                db.BudgetCategories.Attach(category);
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

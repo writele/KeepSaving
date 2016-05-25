@@ -272,6 +272,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\LoadPartials.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -325,6 +326,8 @@
     <Content Include="Views\Transactions\_Error.cshtml" />
     <Content Include="Views\Transactions\_DeleteTransaction.cshtml" />
     <Content Include="Views\Transactions\_EditTransaction.cshtml" />
+    <Content Include="Views\Budget\_Error.cshtml" />
+    <Content Include="Views\Budget\_EditBudgetItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
