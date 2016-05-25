@@ -5,7 +5,7 @@
 }
 
 <h2>Transactions in @Model.Name</h2>
-<h3>Account Balance: @Model.Balance</h3>
+<h3>Account Balance: $@Model.Balance</h3>
 
 <div class="row">
     <div class="col-md-4 content" id="action">
@@ -43,7 +43,7 @@
                     {
                         <tr>
                             <td>
-                                Edit | Delete
+                                Edit | <a href="#" class="deleteTransaction" id="@item.Id">Delete</a>
                             </td>
                             <td>
                                 @item.Created.ToString("M/d/yy")
@@ -80,11 +80,25 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            $('#action').load('@Url.Action("_AddTransaction", "Transactions", new { id = Model.Id })');
             $(document).on('change', '#TransactionType', function () {
-                console.log("select changed");
                 $("div#categories").toggle();
             });
+
+            $('#action').load('@Url.Action("_AddTransaction", "Transactions", new { id = Model.Id })');
+
+            function LoadPartialView(element, action) {
+                $(document).on('click', element, function (evt) {
+                    var $id = $(this).attr("id");
+                    var $actionDIV = $('#action');
+                    var $actionURL = '/transactions/' + action + '/' + $id;
+                    var url = $(this).data($actionURL);
+                    $actionDIV.empty();
+                    $actionDIV.load($actionURL);
+                })
+            }
+
+            LoadPartialView('.deleteTransaction', '_deletetransaction');
+
         });
     </script>
 }

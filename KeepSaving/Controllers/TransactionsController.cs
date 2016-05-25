@@ -118,6 +118,30 @@ namespace KeepSaving.Controllers
             return RedirectToAction("Details", new { id = transaction.AccountId});
         }
 
+        // GET: Delete Transaction
+        public ActionResult _DeleteTransaction(int? id)
+        {
+            try
+            {
+                var model = db.Transactions.Find(id);
+                return PartialView(model);
+            }
+            catch
+            {
+                return PartialView("_Error");
+            }
+        }
+
+        //POST: Transaction/DeleteTransaction
+        [HttpPost]
+        public ActionResult DeleteTransaction(int Id, int AccountId)
+        {
+            var transaction = db.Transactions.Find(Id);
+            db.Transactions.Remove(transaction);
+            db.SaveChanges();
+            return RedirectToAction("Details", new { id = AccountId });
+        }
+
         //POST: Transaction/RenameAccount
         [HttpPost]
         public ActionResult RenameAccount()
@@ -139,11 +163,5 @@ namespace KeepSaving.Controllers
             return RedirectToAction("Index");
         }
 
-        //POST: Transaction/DeleteTransaction
-        [HttpPost]
-        public ActionResult DeleteTransaction()
-        {
-            return RedirectToAction("Index");
-        }
     }
 }
