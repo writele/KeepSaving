@@ -135,11 +135,32 @@ namespace KeepSaving.Controllers
             }
         }
 
-        //POST: Transaction/EditTransaction
+        //POST: Transaction/AddTransaction
         [HttpPost]
-        public ActionResult EditTransaction()
+        public ActionResult EditTransaction([Bind(Include = "Id, Amount, AccountId, Description")] Transaction transaction, int? BudgetCategoryId)
         {
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                transaction.Modified = DateTimeOffset.Now;
+                var userId = User.Identity.GetUserId();
+                transaction.AuthorId = userId;
+                if (transaction.TransactionType == TransactionType.Expense)
+                {
+                    transaction.BudgetCategoryId = BudgetCategoryId;
+                    UpdateAccountBalance(false, transaction.Amount, transaction.AccountId);
+                }
+                else
+                {
+                    transaction.BudgetCategoryId = null;
+                    UpdateAccountBalance(true, transaction.Amount, transaction.AccountId);
+                }
+                db.Transactions.Attach(transaction);
+                db.Entry(transaction).Property("Amount").IsModified = true;
+                db.Entry(transaction).Property("Description").IsModified = true;
+                db.Entry(transaction).Property("BudgetCategoryId").IsModified = true;
+                db.SaveChanges();
+            }
+            return RedirectToAction("Details", new { id = transaction.AccountId });
         }
 
         // GET: Delete Transaction
@@ -161,6 +182,9 @@ namespace KeepSaving.Controllers
         public ActionResult DeleteTransaction(int Id, int AccountId)
         {
             var transaction = db.Transactions.Find(Id);
+            bool AddBalance;
+            AddBalance = (transaction.TransactionType == TransactionType.Expense) ?  true : false;
+            UpdateAccountBalance(AddBalance, transaction.Amount, transaction.AccountId);
             db.Transactions.Remove(transaction);
             db.SaveChanges();
             return RedirectToAction("Details", new { id = AccountId });

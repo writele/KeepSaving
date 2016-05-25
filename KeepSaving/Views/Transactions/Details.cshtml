@@ -92,7 +92,6 @@
                     var $actionDIV = $('#action');
                     var $actionURL = '/transactions/' + action + '/' + $id;
                     var url = $(this).data($actionURL);
-                    $actionDIV.empty();
                     $actionDIV.load($actionURL);
                 })
             }

@@ -1,6 +1,6 @@
 ﻿@model KeepSaving.Models.Transaction
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("EditTransaction", "Transactions"))
 {
     @Html.AntiForgeryToken()
     
@@ -9,6 +9,7 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.AccountId)
 
         <div class="form-group">
             @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-3" })
