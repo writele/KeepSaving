@@ -74,14 +74,7 @@ namespace KeepSaving.Controllers
         public bool UpdateAccountBalance(bool IsIncome, decimal Amount, int? AccountId)
         {
             var account = db.Accounts.Find(AccountId);
-            if (IsIncome)
-            {
-                account.Balance += Amount;
-            }
-            else
-            {
-                account.Balance -= Amount;
-            }
+            account.Balance = (IsIncome) ? account.Balance + Amount : account.Balance - Amount;
             db.Accounts.Attach(account);
             db.Entry(account).Property("Balance").IsModified = true;
             db.SaveChanges();
@@ -135,24 +128,26 @@ namespace KeepSaving.Controllers
             }
         }
 
-        //POST: Transaction/AddTransaction
+        //POST: Transaction/EditTransaction
         [HttpPost]
-        public ActionResult EditTransaction([Bind(Include = "Id, Amount, AccountId, Description")] Transaction transaction, int? BudgetCategoryId)
+        public ActionResult EditTransaction([Bind(Include = "Id, Amount, TransactionType, AccountId, Description")] Transaction transaction, int? BudgetCategoryId)
         {
             if (ModelState.IsValid)
             {
                 transaction.Modified = DateTimeOffset.Now;
                 var userId = User.Identity.GetUserId();
                 transaction.AuthorId = userId;
+                var originalTransaction = db.Transactions.AsNoTracking().FirstOrDefault(t => t.Id == transaction.Id);
+                decimal AccountAmount = transaction.Amount - originalTransaction.Amount;
                 if (transaction.TransactionType == TransactionType.Expense)
                 {
                     transaction.BudgetCategoryId = BudgetCategoryId;
-                    UpdateAccountBalance(false, transaction.Amount, transaction.AccountId);
+                    UpdateAccountBalance(false, AccountAmount, transaction.AccountId);
                 }
                 else
                 {
                     transaction.BudgetCategoryId = null;
-                    UpdateAccountBalance(true, transaction.Amount, transaction.AccountId);
+                    UpdateAccountBalance(true, AccountAmount, transaction.AccountId);
                 }
                 db.Transactions.Attach(transaction);
                 db.Entry(transaction).Property("Amount").IsModified = true;
