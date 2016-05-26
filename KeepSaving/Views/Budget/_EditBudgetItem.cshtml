@@ -10,7 +10,11 @@
     <div class="form-horizontal">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.BudgetId)
         @Html.HiddenFor(model => model.BudgetCategory.Id)
+        @Html.HiddenFor(model => model.Created)
+        @Html.HiddenFor(model => model.Budget)
+
 
         <div class="form-group">
             <label class="control-label col-md-2" for="CategoryName">Category</label>

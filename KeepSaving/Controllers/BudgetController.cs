@@ -80,27 +80,31 @@ namespace KeepSaving.Controllers
 
         //POST: Edit Budget Item
         [HttpPost]
-        public ActionResult EditBudgetItem([Bind(Include = "Id, Amount, Frequency, BudgetCategory.Id")] BudgetItem item, string CategoryName)
+        public ActionResult EditBudgetItem([Bind(Include = "Id, BudgetId, Created, Amount, Frequency, BudgetCategory.Id")] BudgetItem item, string CategoryName)
         {
             if (ModelState.IsValid)
             {
                 var householdId = User.Identity.GetHouseholdId();
                 var budget = db.Budgets.FirstOrDefault(b => b.HouseholdId == householdId);
-                item.Modified = DateTimeOffset.Now;
-                db.Entry(item).Property("Amount").IsModified = true;
-                db.Entry(item).Property("Frequency").IsModified = true;
-                db.BudgetItems.Attach(item);
-
                 var oldItem = db.BudgetItems.AsNoTracking().FirstOrDefault(m => m.Id == item.Id);
+                item.Modified = DateTimeOffset.Now;
+                
                 budget.Amount -= oldItem.Amount * oldItem.Frequency / 12;
                 budget.Amount += item.Amount * item.Frequency / 12;
+
+                db.BudgetItems.Attach(item);
+                db.Entry(item).Property("Amount").IsModified = true;
+                db.Entry(item).Property("Frequency").IsModified = true;
+                db.Entry(item).Property("Modified").IsModified = true;
                 db.Budgets.Attach(budget);
                 db.Entry(budget).Property("Amount").IsModified = true;
                 db.SaveChanges();
 
                 // need to validate that category name is unique
-                var category = db.BudgetCategories.Find(item.BudgetCategory.Id);
+                var category = db.BudgetCategories.Find(oldItem.BudgetCategory.Id);
+                category.Name = CategoryName;
                 db.BudgetCategories.Attach(category);
+                db.Entry(category).Property("Name").IsModified = true;
                 db.SaveChanges();
             }
             return RedirectToAction("Index");
