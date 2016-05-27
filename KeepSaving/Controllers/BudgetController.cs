@@ -2,6 +2,7 @@
 using KeepSaving.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -36,30 +37,51 @@ namespace KeepSaving.Controllers
             }
         }
 
+        //Helper function: Update account balance
+        public bool UpdateBudgetAmount(decimal Amount, int Frequency, int? BudgetId)
+        {
+            var budget = db.Budgets.Find(BudgetId);
+            budget.Amount += Amount * Frequency / 12;
+            budget.Household = budget.Household;
+            db.Entry(budget).State = EntityState.Modified;
+            db.SaveChangesWithErrors();
+
+            return true;
+        }
+
         //POST: Add Budget Item
         [HttpPost]
-        public ActionResult AddBudgetItem([Bind(Include = "Amount, Frequency")] BudgetItem item, string CategoryName)
+        public ActionResult AddBudgetItem(int Frequency, decimal Amount, string CategoryName)
         {
             if (ModelState.IsValid)
             {
                 var householdId = User.Identity.GetHouseholdId();
                 var budget = db.Budgets.FirstOrDefault(b => b.HouseholdId == householdId);
+                var item = new BudgetItem();
                 item.Created = DateTimeOffset.Now;
+                item.Frequency = Frequency;
+                item.Amount = Amount;
+                //budget.Amount += Amount * Frequency / 12;
+                //db.Budgets.Attach(budget);
+                //db.Entry(budget).Property("Amount").IsModified = true;
+
                 db.BudgetItems.Add(item);
                 budget.BudgetItems.Add(item);
 
-                budget.Amount += item.Amount * item.Frequency / 12;
-                db.Budgets.Attach(budget);
-                db.Entry(budget).Property("Amount").IsModified = true;
                 db.SaveChanges();
 
-                // need to validate that category name is unique
+                // Not validating!
+                UpdateBudgetAmount(Amount, Frequency, budget.Id);
+                //db.Entry(budget).State = EntityState.Modified;
                 BudgetCategory category = new BudgetCategory();
                 category.Name = CategoryName;
                 category.BudgetItemId = item.Id;
-                category.BudgetItem = item;      
-                db.BudgetCategories.Add(category);                    
+                category.BudgetItem = item;
+                db.BudgetCategories.Add(category);
+                item.BudgetCategoryId = category.Id;
+                db.Entry(item).Property("BudgetCategoryId").IsModified = true;
                 db.SaveChanges();
+
             }
             return RedirectToAction("Index");
         }

@@ -19,7 +19,7 @@ namespace KeepSaving.Models
         public DateTimeOffset Create { get; set; }
         public int? BudgetId { get; set; }
 
-        public virtual Budget Budget {get; set;}
+        public virtual Budget Budget { get; set; }
         public virtual ICollection<Account> Accounts { get; set; }
         public virtual ICollection<ApplicationUser> Users { get; set; }
 

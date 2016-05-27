@@ -8,6 +8,7 @@ namespace KeepSaving.Models
     {
         public int Id { get; set; }
         public int BudgetId { get; set; }
+        public int? BudgetCategoryId { get; set; }
 
         public DateTimeOffset Created { get; set; }
         public DateTimeOffset? Modified { get; set; }
