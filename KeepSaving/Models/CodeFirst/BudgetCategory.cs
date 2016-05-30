@@ -13,7 +13,6 @@ namespace KeepSaving.Models
         }
 
         public string Name { get; set; }
-        public int BudgetItemId { get; set; }
 
         [Required]
         public virtual BudgetItem BudgetItem { get; set; }

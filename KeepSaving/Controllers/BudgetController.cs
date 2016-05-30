@@ -67,9 +67,9 @@ namespace KeepSaving.Controllers
                 BudgetCategory category = new BudgetCategory();
                 var budgetCategories = from i in budget.BudgetItems
                                        from c in db.BudgetCategories
-                                       where i.Id == c.BudgetItemId
+                                       where i.BudgetCategoryId == c.Id
                                        select c;
-                if (budgetCategories.Any(b => b.Name == CategoryName))
+                if (budgetCategories.Any(b => b.Name.Standardize() == CategoryName.Standardize()))
                 {
                     TempData["Error"] = "Category already exists. Please enter a different category name.";
                     return RedirectToAction("Index");
@@ -78,13 +78,14 @@ namespace KeepSaving.Controllers
                 {
                     category.Name = CategoryName;
                 }     
-                category.BudgetItemId = item.Id;
+                //category.BudgetItemId = item.Id;
                 category.BudgetItem = item;
                 db.BudgetCategories.Add(category);
-                item.BudgetCategoryId = category.Id;
-
+                //item.BudgetCategoryId = category.Id;
+                db.SaveChanges();
                 UpdateBudgetAmount(true, Amount, Frequency, budget.Id);
-
+                item.BudgetCategoryId = category.Id;
+                db.Entry(item).State = EntityState.Modified;
                 db.SaveChanges();
 
             }

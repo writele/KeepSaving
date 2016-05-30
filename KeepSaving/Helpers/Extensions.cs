@@ -67,5 +67,10 @@ namespace KeepSaving.Helpers
                 ); // Add the original exception as the innerException
             }
         }
+
+        public static string Standardize(this string name)
+        {
+            return name.Trim().ToLower();
+        }
     }
 }
