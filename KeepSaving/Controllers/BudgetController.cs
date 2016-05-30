@@ -78,10 +78,8 @@ namespace KeepSaving.Controllers
                 {
                     category.Name = CategoryName;
                 }     
-                //category.BudgetItemId = item.Id;
                 category.BudgetItem = item;
                 db.BudgetCategories.Add(category);
-                //item.BudgetCategoryId = category.Id;
                 db.SaveChanges();
                 UpdateBudgetAmount(true, Amount, Frequency, budget.Id);
                 item.BudgetCategoryId = category.Id;
@@ -129,8 +127,25 @@ namespace KeepSaving.Controllers
                 db.Entry(budget).Property("Amount").IsModified = true;
                 db.SaveChanges();
 
-                // need to validate that category name is unique
                 var category = db.BudgetCategories.Find(oldItem.BudgetCategory.Id);
+                var oldCategoryName = oldItem.BudgetCategory.Name;
+                if (oldCategoryName != CategoryName)
+                {
+                    var budgetCategories = from i in budget.BudgetItems
+                                           from c in db.BudgetCategories
+                                           where i.BudgetCategoryId == c.Id
+                                           select c;
+                    if (budgetCategories.Any(b => b.Name.Standardize() == CategoryName.Standardize()))
+                    {
+                        TempData["EditError"] = "That category already exists. Please enter a different category name.";
+                        TempData["Id"] = item.Id;
+                        return RedirectToAction("Index");
+                    }
+                }
+                else
+                {
+                    category.Name = CategoryName;
+                }           
                 category.Name = CategoryName;
                 db.BudgetCategories.Attach(category);
                 db.Entry(category).Property("Name").IsModified = true;

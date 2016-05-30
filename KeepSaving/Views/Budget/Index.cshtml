@@ -10,6 +10,7 @@
         <h3>Total Monthly Budget: $@Model.Amount</h3>
         <hr />
         <h3>Budgeted Expenses</h3>
+        <a href="#" class="addBudgetItem" id="@Model.Id"><i class="glyphicon glyphicon-plus"></i> Add Budget Item</a>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -36,18 +37,18 @@
         </table>
     </div>
     <div class="col-md-offset-1 col-md-5 content" id="action">
+         @if (TempData["EditError"] != null)
+         {
+        <p class="text-danger">@TempData["EditError"]</p>
+        @Html.Action("_EditBudgetItem", "Budget", new { id = TempData["Id"] })
+         }
+         else {
         <p class="text-danger">@TempData["Error"]</p>
         @Html.Action("_AddBudgetItem", "Budget", new { id = Model.Id })
+         }
     </div>
 </div>
 
 @section Scripts {
-    <script>
-        $(document).ready(function () {
-
-            @*$('#action').load('@Url.Action("_AddBudgetItem", "Budget", new { id = Model.Id })');*@
-
-        });
-    </script>
     <script src="~/Scripts/LoadPartials.js"></script>
 }
