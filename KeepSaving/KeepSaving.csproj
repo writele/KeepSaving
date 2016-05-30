@@ -328,6 +328,7 @@
     <Content Include="Views\Transactions\_EditTransaction.cshtml" />
     <Content Include="Views\Budget\_Error.cshtml" />
     <Content Include="Views\Budget\_EditBudgetItem.cshtml" />
+    <Content Include="Views\Budget\_DeleteBudgetItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -61,25 +61,30 @@ namespace KeepSaving.Controllers
                 item.Created = DateTimeOffset.Now;
                 item.Frequency = Frequency;
                 item.Amount = Amount;
-                //budget.Amount += Amount * Frequency / 12;
-                //db.Budgets.Attach(budget);
-                //db.Entry(budget).Property("Amount").IsModified = true;
-
                 db.BudgetItems.Add(item);
                 budget.BudgetItems.Add(item);
 
-                db.SaveChanges();
-
-                // Not validating!
-                UpdateBudgetAmount(Amount, Frequency, budget.Id);
-                //db.Entry(budget).State = EntityState.Modified;
                 BudgetCategory category = new BudgetCategory();
-                category.Name = CategoryName;
+                var budgetCategories = from i in budget.BudgetItems
+                                       from c in db.BudgetCategories
+                                       where i.Id == c.BudgetItemId
+                                       select c;
+                if (budgetCategories.Any(b => b.Name == CategoryName))
+                {
+                    ViewBag.Message = "Category already exists. Please enter a different category name.";
+                    return PartialView("_AddBudgetItem");
+                }
+                else
+                {
+                    category.Name = CategoryName;
+                }     
                 category.BudgetItemId = item.Id;
                 category.BudgetItem = item;
                 db.BudgetCategories.Add(category);
                 item.BudgetCategoryId = category.Id;
-                db.Entry(item).Property("BudgetCategoryId").IsModified = true;
+
+                UpdateBudgetAmount(Amount, Frequency, budget.Id);
+
                 db.SaveChanges();
 
             }
@@ -113,6 +118,7 @@ namespace KeepSaving.Controllers
                 
                 budget.Amount -= oldItem.Amount * oldItem.Frequency / 12;
                 budget.Amount += item.Amount * item.Frequency / 12;
+                budget.Household = budget.Household;
 
                 db.BudgetItems.Attach(item);
                 db.Entry(item).Property("Amount").IsModified = true;
@@ -130,6 +136,20 @@ namespace KeepSaving.Controllers
                 db.SaveChanges();
             }
             return RedirectToAction("Index");
+        }
+
+        // GET: Edit BudgetItem
+        public ActionResult _DeleteBudgetItem(int? id)
+        {
+            try
+            {
+                var model = db.BudgetItems.Find(id);
+                return PartialView(model);
+            }
+            catch
+            {
+                return PartialView("_Error");
+            }
         }
 
         //POST: Edit Budget Amount
