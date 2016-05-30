@@ -16,5 +16,6 @@
 
     LoadPartialView('.addBudgetItem', '_addbudgetitem', 'budget');
     LoadPartialView('.editBudgetItem', '_editbudgetitem', 'budget');
+    LoadPartialView('.deleteBudgetItem', '_deletebudgetitem', 'budget');
 
 });

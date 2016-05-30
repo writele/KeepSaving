@@ -36,7 +36,8 @@
         </table>
     </div>
     <div class="col-md-offset-1 col-md-5 content" id="action">
-
+        <p class="text-danger">@TempData["Error"]</p>
+        @Html.Action("_AddBudgetItem", "Budget", new { id = Model.Id })
     </div>
 </div>
 
@@ -44,7 +45,7 @@
     <script>
         $(document).ready(function () {
 
-            $('#action').load('@Url.Action("_AddBudgetItem", "Budget", new { id = Model.Id })');
+            @*$('#action').load('@Url.Action("_AddBudgetItem", "Budget", new { id = Model.Id })');*@
 
         });
     </script>

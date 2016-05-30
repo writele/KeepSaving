@@ -38,10 +38,10 @@ namespace KeepSaving.Controllers
         }
 
         //Helper function: Update account balance
-        public bool UpdateBudgetAmount(decimal Amount, int Frequency, int? BudgetId)
+        public bool UpdateBudgetAmount(bool AddAmount, decimal Amount, int Frequency, int? BudgetId)
         {
             var budget = db.Budgets.Find(BudgetId);
-            budget.Amount += Amount * Frequency / 12;
+            budget.Amount = (AddAmount) ? budget.Amount + Amount * Frequency / 12 : budget.Amount - Amount * Frequency / 12;
             budget.Household = budget.Household;
             db.Entry(budget).State = EntityState.Modified;
             db.SaveChangesWithErrors();
@@ -71,8 +71,8 @@ namespace KeepSaving.Controllers
                                        select c;
                 if (budgetCategories.Any(b => b.Name == CategoryName))
                 {
-                    ViewBag.Message = "Category already exists. Please enter a different category name.";
-                    return PartialView("_AddBudgetItem");
+                    TempData["Error"] = "Category already exists. Please enter a different category name.";
+                    return RedirectToAction("Index");
                 }
                 else
                 {
@@ -83,7 +83,7 @@ namespace KeepSaving.Controllers
                 db.BudgetCategories.Add(category);
                 item.BudgetCategoryId = category.Id;
 
-                UpdateBudgetAmount(Amount, Frequency, budget.Id);
+                UpdateBudgetAmount(true, Amount, Frequency, budget.Id);
 
                 db.SaveChanges();
 
@@ -150,6 +150,19 @@ namespace KeepSaving.Controllers
             {
                 return PartialView("_Error");
             }
+        }
+
+        //POST: Transaction/DeleteTransaction
+        [HttpPost]
+        public ActionResult DeleteBudgetItem(int Id)
+        {
+            var category = db.BudgetCategories.Find(Id);
+            var item = db.BudgetItems.Find(Id);
+            UpdateBudgetAmount(false, item.Amount, item.Frequency, item.BudgetId);
+            db.BudgetCategories.Remove(category);
+            db.BudgetItems.Remove(item);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         //POST: Edit Budget Amount
