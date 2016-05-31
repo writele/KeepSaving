@@ -10,6 +10,8 @@
         })
     }
 
+    LoadPartialView('.renameAccount', '_renameaccount', 'transactions');
+
     LoadPartialView('.addTransaction', '_addtransaction', 'transactions');
     LoadPartialView('.deleteTransaction', '_deletetransaction', 'transactions');
     LoadPartialView('.editTransaction', '_edittransaction', 'transactions');

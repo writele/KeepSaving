@@ -3,6 +3,7 @@ using KeepSaving.Models;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -185,10 +186,30 @@ namespace KeepSaving.Controllers
             return RedirectToAction("Details", new { id = AccountId });
         }
 
-        //POST: Transaction/RenameAccount
-        [HttpPost]
-        public ActionResult RenameAccount()
+        // GET: Rename Account
+        public ActionResult _RenameAccount(int? id)
         {
+            try
+            {
+                var model = db.Accounts.Find(id);
+                return PartialView(model);
+            }
+            catch
+            {
+                return PartialView("_Error");
+            }
+        }
+
+        // POST: Rename Account
+        [HttpPost]
+        public ActionResult RenameAccount([Bind(Include = "Id, Name")] Account account)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Accounts.Attach(account);
+                db.Entry(account).Property("Name").IsModified = true;
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 
