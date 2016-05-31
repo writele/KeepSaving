@@ -213,7 +213,7 @@ namespace KeepSaving.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: Rename Account
+        // GET: Archive Account
         public ActionResult _ArchiveAccount(int? id)
         {
             try
@@ -225,6 +225,35 @@ namespace KeepSaving.Controllers
             {
                 return PartialView("_Error");
             }
+        }
+
+        // POST: Archive Account
+        [HttpPost]
+        public ActionResult ArchiveAccount([Bind(Include = "Id")] Account account)
+        {
+            if (ModelState.IsValid)
+            {
+                account.IsArchived = true;
+                db.Accounts.Attach(account);
+                db.Entry(account).Property("IsArchived").IsModified = true;
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+
+        // POST: Reactivate Account
+        [HttpPost]
+        public ActionResult ReactivateAccount(int Id)
+        {
+            if (ModelState.IsValid)
+            {
+                var account = db.Accounts.Find(Id);
+                account.IsArchived = false;
+                db.Accounts.Attach(account);
+                db.Entry(account).Property("IsArchived").IsModified = true;
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index");
         }
 
         //POST: Transaction/ReconcileAccount

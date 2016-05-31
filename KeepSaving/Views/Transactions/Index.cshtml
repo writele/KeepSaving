@@ -66,8 +66,8 @@
     </table>
     </div>
     <div class="row">
-    @{ var Archives = Model.Where(m => m.IsArchived == true); }
-    @if (Archives != null)
+    @{ var Archives = Model.Where(m => m.IsArchived == true).ToList(); }
+    @if (Archives.Count() != 0)
     {
     <h4 class="text-danger">Archived Accounts</h4>
     <table class="table table-striped">
@@ -85,13 +85,20 @@
                 {
                     <tr>
                         <td>
-                            @Html.ActionLink(@item.Name, "Details", new { id = @item.Id })
+                            @item.Name
                         </td>
                         <td>
                             $@Html.DisplayFor(modelItem => item.Balance)
                         </td>
                         <td>
-                            <a href="#" class="reactivateAccount" id="@item.Id">Reactivate</a>
+                            @using (Html.BeginForm("ReactivateAccount", "Transactions"))
+                            {
+                                @Html.AntiForgeryToken();
+                                <input type="hidden" value="@item.Id" name="Id" />
+
+                                <input type="submit" value="Reactivate" class="btn btn-default" />
+
+                            }
                         </td>
                     </tr>
                 }
