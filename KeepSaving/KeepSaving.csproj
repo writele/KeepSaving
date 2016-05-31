@@ -330,6 +330,7 @@
     <Content Include="Views\Budget\_EditBudgetItem.cshtml" />
     <Content Include="Views\Budget\_DeleteBudgetItem.cshtml" />
     <Content Include="Views\Transactions\_RenameAccount.cshtml" />
+    <Content Include="Views\Transactions\_ArchiveAccount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -17,6 +17,7 @@ namespace KeepSaving.Models
         public decimal Balance { get; set; }
         public string Name { get; set; }
         public bool IsReconciled { get; set; }
+        public bool IsArchived { get; set; }
 
         public virtual Household Household { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }

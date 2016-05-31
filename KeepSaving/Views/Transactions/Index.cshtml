@@ -4,24 +4,29 @@
     ViewBag.Title = "Accounts";
 }
 <div class="row">
-    <h2>Accounts</h2>
-    <br />
-    @using (Html.BeginForm("AddAccount", "Transactions"))
-            {
-        @Html.AntiForgeryToken()
+        <h2>Accounts</h2>
+        <br />
+        @using (Html.BeginForm("AddAccount", "Transactions"))
+                {
+            @Html.AntiForgeryToken()
 
-        <div class="form-horizontal">
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                <div class="col-md-6">
-                    <input type="text" placeholder="Account Name" name="AccountName" class="form-control" />
-                </div>
-                <div class="col-md-2">
-                    <input type="submit" value="Add Account" class="btn btn-default" />
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <input type="text" placeholder="Account Name" name="AccountName" class="form-control" />
+                    </div>
+                    <div class="col-md-2">
+                        <input type="submit" value="Add Account" class="btn btn-default" />
+                    </div>
                 </div>
             </div>
-        </div>
-    }
+        }
+</div>
+<div class="row" id="action">
+
+</div>
+    <div class="row">
     <hr />
     <p>Please select an account to view its transactions.</p>
     <table class="table table-striped">
@@ -38,13 +43,12 @@
             <th></th>
         </tr>
         <tbody>
-            @if (Model != null)
-            {
-                foreach (var item in Model)
+            @{ var Accounts = Model.Where(m => m.IsArchived == false); }
+                @foreach (var item in Accounts)
                 {
                     <tr>
                         <td>
-                            @Html.ActionLink(@item.Name, "Details", new { id = @item.Id })
+                            @Html.ActionLink(item.Name, "Details", new { id = item.Id })
                         </td>
                         <td>
                             $@Html.DisplayFor(modelItem => item.Balance)
@@ -58,18 +62,52 @@
                         </td>
                     </tr>
                 }
-            }
         </tbody>
     </table>
-</div>
-<div class="row">
-    <div class="col-md-12" id="action">
-
-
     </div>
-
+    <div class="row">
+    @{ var Archives = Model.Where(m => m.IsArchived == true); }
+    @if (Archives != null)
+    {
+    <h4 class="text-danger">Archived Accounts</h4>
+    <table class="table table-striped">
+        <tr>
+            <th>
+                Account
+            </th>
+            <th>
+                Balance
+            </th>
+            <th></th>
+        </tr>
+        <tbody>
+                @foreach (var item in Archives)
+                {
+                    <tr>
+                        <td>
+                            @Html.ActionLink(@item.Name, "Details", new { id = @item.Id })
+                        </td>
+                        <td>
+                            $@Html.DisplayFor(modelItem => item.Balance)
+                        </td>
+                        <td>
+                            <a href="#" class="reactivateAccount" id="@item.Id">Reactivate</a>
+                        </td>
+                    </tr>
+                }
+        </tbody>
+    </table>
+    }
 </div>
 
 @section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(document).on('click', '.cancel', function () {
+                $("div#action").empty();
+            });
+
+        });
+    </script>
     <script src="~/Scripts/LoadPartials.js"></script>
 }

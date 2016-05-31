@@ -213,6 +213,20 @@ namespace KeepSaving.Controllers
             return RedirectToAction("Index");
         }
 
+        // GET: Rename Account
+        public ActionResult _ArchiveAccount(int? id)
+        {
+            try
+            {
+                var model = db.Accounts.Find(id);
+                return PartialView(model);
+            }
+            catch
+            {
+                return PartialView("_Error");
+            }
+        }
+
         //POST: Transaction/ReconcileAccount
         [HttpPost]
         public ActionResult ReconcileAccount()
