@@ -98,6 +98,23 @@ namespace KeepSaving.Controllers
             return true;
         }
 
+        public bool SetIsReconciled(bool IsReconciled, int? AccountId)
+        {
+            var account = db.Accounts.Find(AccountId);
+            foreach (var transaction in account.Transactions)
+            {
+                transaction.IsReconciled = IsReconciled;
+                db.Transactions.Attach(transaction);
+                db.Entry(transaction).Property("IsReconciled").IsModified = true;
+            }
+            account.IsReconciled = IsReconciled;
+            db.Accounts.Attach(account);
+            db.Entry(account).Property("IsReconciled").IsModified = true;
+            db.SaveChanges();
+
+            return true;
+        }
+
         //POST: Transaction/AddTransaction
         [HttpPost]
         public ActionResult AddTransaction([Bind(Include = "Amount, Description, TransactionType")] Transaction transaction, int? AccountId, int? BudgetCategoryId)
@@ -123,8 +140,32 @@ namespace KeepSaving.Controllers
                 var account = db.Accounts.Find(AccountId);
                 account.Transactions.Add(theTransaction);
                 db.SaveChanges();
+
+                SetIsReconciled(false, AccountId);
             }
             return RedirectToAction("Details", new { id = transaction.AccountId});
+        }
+
+        //POST: Transaction/ReconcileAccount
+        [HttpPost]
+        public ActionResult ReconcileAccount(decimal ActualBalance, int AccountId)
+        {
+            if (ModelState.IsValid)
+            {
+                var account = db.Accounts.Find(AccountId);
+                if (ActualBalance > account.Balance)
+                {
+                    var balanceDifference = ActualBalance - account.Balance;
+                    UpdateAccountBalance(true, balanceDifference, AccountId);
+                }
+                else
+                {
+                    var balanceDifference = account.Balance - ActualBalance;
+                    UpdateAccountBalance(false, balanceDifference, AccountId);
+                }
+                SetIsReconciled(true, AccountId);
+            }
+            return RedirectToAction("Details", new { id = AccountId });
         }
 
         public ActionResult _EditTransaction(int? id)
@@ -268,13 +309,6 @@ namespace KeepSaving.Controllers
                 db.Entry(account).Property("IsArchived").IsModified = true;
                 db.SaveChanges();
             }
-            return RedirectToAction("Index");
-        }
-
-        //POST: Transaction/ReconcileAccount
-        [HttpPost]
-        public ActionResult ReconcileAccount()
-        {
             return RedirectToAction("Index");
         }
 

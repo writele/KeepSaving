@@ -1,8 +1,8 @@
-﻿@{ var AccountId = ViewBag.Account; }
+﻿@{ var AccountId = ViewBag.AccountId; }
 <h3>Reconcile Account</h3>
 <p>If your actual account balance is different from the account balance shown, enter that actual account balance below. Your account will be reconciled to reflect the actual account balance.</p>
 <br />
-@using (Html.BeginForm("AddTransaction", "Transactions"))
+@using (Html.BeginForm("ReconcileAccount", "Transactions"))
 {
     @Html.AntiForgeryToken()
 
