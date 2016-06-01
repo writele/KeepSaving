@@ -8,9 +8,13 @@
     Transactions in @Model.Name
     <span class="float-right">Account Balance: $@Model.Balance</span>
 </h2>
+@if (Model.ReconciledAmount > 0)
+{
+    <h3 class="float-right text-danger">Reconciled Amount: $@Model.ReconciledAmount</h3>
+}
 @if (Model.Balance < 0)
 {
-    <h3 class="text-danger float-right">Warning: Your account has been overdrawn.</h3>
+    <h4 class="text-danger">Warning: Your account has been overdrawn.</h4>
 }
 <div class="row">
     <div class="col-md-4 content" id="action">

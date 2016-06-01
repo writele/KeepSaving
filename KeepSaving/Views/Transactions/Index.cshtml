@@ -78,6 +78,9 @@
             <th>
                 Balance
             </th>
+            <th>
+                Created
+            </th>
             <th></th>
         </tr>
         <tbody>
@@ -89,6 +92,9 @@
                         </td>
                         <td>
                             $@Html.DisplayFor(modelItem => item.Balance)
+                        </td>
+                        <td>
+                            @item.Created.ToString("M/d/yy H:mm")
                         </td>
                         <td>
                             @using (Html.BeginForm("ReactivateAccount", "Transactions"))

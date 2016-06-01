@@ -15,6 +15,7 @@ namespace KeepSaving.Models
         public int? HouseholdId { get; set; }
         public DateTimeOffset Created { get; set; }
         public decimal Balance { get; set; }
+        public decimal? ReconciledAmount { get; set; }
         public string Name { get; set; }
         public bool IsReconciled { get; set; }
         public bool IsArchived { get; set; }

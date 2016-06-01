@@ -31,6 +31,7 @@ namespace KeepSaving.Controllers
             Account account = new Account();
             account.Name = AccountName;
             account.Balance = 0;
+            account.ReconciledAmount = 0;
             account.Created = DateTimeOffset.Now;
             account.IsReconciled = false;
             db.Accounts.Add(account);
@@ -87,12 +88,14 @@ namespace KeepSaving.Controllers
         }
 
         //Helper function: Update account balance
-        public bool UpdateAccountBalance(bool IsIncome, decimal Amount, int? AccountId)
+        public bool UpdateAccountBalance(bool IsIncome, bool IsReconciled, decimal Amount, int? AccountId)
         {
             var account = db.Accounts.Find(AccountId);
             account.Balance = (IsIncome) ? account.Balance + Amount : account.Balance - Amount;
+            account.ReconciledAmount = (IsReconciled) ? account.ReconciledAmount + Amount : account.ReconciledAmount;
             db.Accounts.Attach(account);
             db.Entry(account).Property("Balance").IsModified = true;
+            db.Entry(account).Property("ReconciledAmount").IsModified = true;
             db.SaveChanges();
 
             return true;
@@ -127,11 +130,11 @@ namespace KeepSaving.Controllers
                 if (transaction.TransactionType == TransactionType.Expense)
                 {
                     transaction.BudgetCategoryId = BudgetCategoryId;
-                    UpdateAccountBalance(false, transaction.Amount, AccountId);
+                    UpdateAccountBalance(false, false, transaction.Amount, AccountId);
                 }
                 else
                 {
-                    UpdateAccountBalance(true, transaction.Amount, AccountId);
+                    UpdateAccountBalance(true, false, transaction.Amount, AccountId);
                 }
                 db.Transactions.Add(transaction);
                 db.SaveChanges();
@@ -156,12 +159,12 @@ namespace KeepSaving.Controllers
                 if (ActualBalance > account.Balance)
                 {
                     var balanceDifference = ActualBalance - account.Balance;
-                    UpdateAccountBalance(true, balanceDifference, AccountId);
+                    UpdateAccountBalance(true, true, balanceDifference, AccountId);
                 }
                 else
                 {
                     var balanceDifference = account.Balance - ActualBalance;
-                    UpdateAccountBalance(false, balanceDifference, AccountId);
+                    UpdateAccountBalance(false, true, balanceDifference, AccountId);
                 }
                 SetIsReconciled(true, AccountId);
             }
@@ -199,12 +202,12 @@ namespace KeepSaving.Controllers
                 if (transaction.TransactionType == TransactionType.Expense)
                 {
                     transaction.BudgetCategoryId = BudgetCategoryId;
-                    UpdateAccountBalance(false, AccountAmount, transaction.AccountId);
+                    UpdateAccountBalance(false, false, AccountAmount, transaction.AccountId);
                 }
                 else
                 {
                     transaction.BudgetCategoryId = null;
-                    UpdateAccountBalance(true, AccountAmount, transaction.AccountId);
+                    UpdateAccountBalance(true, false, AccountAmount, transaction.AccountId);
                 }
                 db.Transactions.Attach(transaction);
                 db.Entry(transaction).Property("Amount").IsModified = true;
@@ -236,7 +239,7 @@ namespace KeepSaving.Controllers
             var transaction = db.Transactions.Find(Id);
             bool AddBalance;
             AddBalance = (transaction.TransactionType == TransactionType.Expense) ?  true : false;
-            UpdateAccountBalance(AddBalance, transaction.Amount, transaction.AccountId);
+            UpdateAccountBalance(AddBalance, false, transaction.Amount, transaction.AccountId);
             db.Transactions.Remove(transaction);
             db.SaveChanges();
             return RedirectToAction("Details", new { id = AccountId });
