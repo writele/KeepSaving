@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KeepSaving.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -7,6 +8,7 @@ using System.Web.Mvc;
 namespace KeepSaving.Controllers
 {
     [RequireHttps]
+    [AuthorizeHouseholdRequired]
     public class HomeController : Controller
     {
         public ActionResult Index()

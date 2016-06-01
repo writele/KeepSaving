@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace KeepSaving.Controllers
 {
+    [RequireHttps]
     [AuthorizeHouseholdRequired]
     public class TransactionsController : Controller
     {
@@ -63,6 +64,20 @@ namespace KeepSaving.Controllers
                 var household = db.Households.Find(householdId);
                 var categories = household.Budget.BudgetItems.Select(b => b.BudgetCategory).Distinct().ToList();
                 ViewBag.BudgetCategories = categories;
+                return PartialView();
+            }
+            catch
+            {
+                return PartialView("_Error");
+            }
+        }
+
+        // GET: Add Transaction
+        public ActionResult _ReconcileAccount(int? id)
+        {
+            try
+            {
+                ViewBag.AccountId = id;
                 return PartialView();
             }
             catch

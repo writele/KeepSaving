@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace KeepSaving.Controllers
 {
+    [RequireHttps]
     [AuthorizeHouseholdRequired]
     public class BudgetController : Controller
     {

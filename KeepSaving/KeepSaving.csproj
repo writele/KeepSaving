@@ -331,6 +331,7 @@
     <Content Include="Views\Budget\_DeleteBudgetItem.cshtml" />
     <Content Include="Views\Transactions\_RenameAccount.cshtml" />
     <Content Include="Views\Transactions\_ArchiveAccount.cshtml" />
+    <Content Include="Views\Transactions\_ReconcileAccount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

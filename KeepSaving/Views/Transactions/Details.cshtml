@@ -1,5 +1,5 @@
 ﻿@model KeepSaving.Models.Account
-
+<link href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet" />
 @{
     ViewBag.Title = "Transactions";
 }
@@ -7,7 +7,11 @@
 <h2>
     Transactions in @Model.Name
     <span class="float-right">Account Balance: $@Model.Balance</span>
-    </h2>
+</h2>
+@if (Model.Balance < 0)
+{
+    <h3 class="text-danger float-right">Warning: Your account has been overdrawn.</h3>
+}
 <div class="row">
     <div class="col-md-4 content" id="action">
 
@@ -15,6 +19,7 @@
     </div>
     <div class="col-md-8">
         <a href="#" class="addTransaction" id="@Model.Id"><i class="glyphicon glyphicon-plus"></i> Add Transaction</a>
+        <a href="#" class="reconcileAccount" id="@Model.Id"><i class="glyphicon glyphicon-ok"></i> Reconcile Account</a>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -64,7 +69,7 @@
                                 $@Html.DisplayFor(modelItem => item.Amount)
                             </td>
                             <td>
-                                <input type="checkbox" checked="@item.IsReconciled" />
+                                <input type="checkbox" checked="@item.IsReconciled" disabled />
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Author.FullName)
@@ -76,11 +81,22 @@
                         </tr>
                     }
             </tbody>
+            <tfoot>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tfoot>
         </table>
     </div>
 </div>
 
 @section Scripts {
+    <script type="text/javascript" language="javascript" src="//cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function () {
             $(document).on('change', '#TransactionType', function () {
@@ -88,6 +104,29 @@
             });
 
             $('#action').load('@Url.Action("_AddTransaction", "Transactions", new { id = Model.Id })');
+
+            $('.table').DataTable({
+                "columns": [
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  { "orderable": false }
+                ]
+            });
+          //.columnFilter({
+          //    aoColumns: [
+          //        null,
+          //        null,
+          //        { type: "select", values: ['Category', 'Income'] },
+          //        null,
+          //        null,
+          //        null
+          //    ]
+
+          //});
 
         });
     </script>

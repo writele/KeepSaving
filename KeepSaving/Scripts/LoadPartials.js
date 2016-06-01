@@ -13,6 +13,7 @@
     LoadPartialView('.renameAccount', '_renameaccount', 'transactions');
     LoadPartialView('.archiveAccount', '_archiveaccount', 'transactions');
 
+    LoadPartialView('.reconcileAccount', '_reconcileaccount', 'transactions');
     LoadPartialView('.addTransaction', '_addtransaction', 'transactions');
     LoadPartialView('.deleteTransaction', '_deletetransaction', 'transactions');
     LoadPartialView('.editTransaction', '_edittransaction', 'transactions');
