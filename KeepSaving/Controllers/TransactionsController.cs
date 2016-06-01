@@ -92,7 +92,14 @@ namespace KeepSaving.Controllers
         {
             var account = db.Accounts.Find(AccountId);
             account.Balance = (IsIncome) ? account.Balance + Amount : account.Balance - Amount;
-            account.ReconciledAmount = (IsReconciled) ? account.ReconciledAmount + Amount : account.ReconciledAmount;
+            if (IsReconciled)
+            {
+                account.ReconciledAmount = (IsIncome) ? account.ReconciledAmount + Amount : account.ReconciledAmount - Amount;
+            }
+            else
+            {
+                account.ReconciledAmount = account.ReconciledAmount;
+            }           
             db.Accounts.Attach(account);
             db.Entry(account).Property("Balance").IsModified = true;
             db.Entry(account).Property("ReconciledAmount").IsModified = true;
@@ -104,11 +111,14 @@ namespace KeepSaving.Controllers
         public bool SetIsReconciled(bool IsReconciled, int? AccountId)
         {
             var account = db.Accounts.Find(AccountId);
-            foreach (var transaction in account.Transactions)
+            if (IsReconciled)
             {
-                transaction.IsReconciled = IsReconciled;
-                db.Transactions.Attach(transaction);
-                db.Entry(transaction).Property("IsReconciled").IsModified = true;
+                foreach (var transaction in account.Transactions)
+                {
+                    transaction.IsReconciled = IsReconciled;
+                    db.Transactions.Attach(transaction);
+                    db.Entry(transaction).Property("IsReconciled").IsModified = true;
+                }
             }
             account.IsReconciled = IsReconciled;
             db.Accounts.Attach(account);
