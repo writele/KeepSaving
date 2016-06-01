@@ -1,4 +1,5 @@
 ﻿using KeepSaving.Helpers;
+using KeepSaving.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,13 @@ namespace KeepSaving.Controllers
     [AuthorizeHouseholdRequired]
     public class HomeController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
         public ActionResult Index()
         {
-            return View();
+            var householdId = User.Identity.GetHouseholdId();
+            var model = db.Households.Find(householdId);
+            return View(model);
         }
 
         public ActionResult About()
