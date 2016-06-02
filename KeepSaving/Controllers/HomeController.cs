@@ -33,13 +33,17 @@ namespace KeepSaving.Controllers
                 var previousMonth = new DateTimeOffset(year, month - 1, 1, 0, 0, 0, new TimeSpan(-4, 0, 0));
                 var nextMonth = new DateTimeOffset(year, month + 1, 1, 0, 0, 0, new TimeSpan(-4, 0, 0));
                 var transactions = household.Accounts.SelectMany(m => m.Transactions).Where(t => t.Created.CompareTo(nextMonth) < 0 && t.Created.CompareTo(previousMonth) > 0 && t.TransactionType == TransactionType.Expense).ToList();
+                var categories = household.Budget.BudgetItems.Select(b => b.BudgetCategory).Distinct().ToList();
                 //y: transaction amount
                 //indexLabel: transaction category name
-                var data = (from item in transactions
+                var data = (from category in categories
+                            let sum=(from item in transactions
+                                     where item.BudgetCategoryId == category.Id
+                                     select item.Amount).Sum()
                             select new
                             {
-                                y = item.Amount,
-                                indexLabel = item.BudgetCategory.Name,
+                                y = sum,
+                                indexLabel = category.Name,
                             }).ToArray();
                 //return PartialView();
                 return Content(JsonConvert.SerializeObject(data), "application/json");
