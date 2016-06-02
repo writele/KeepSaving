@@ -1,6 +1,8 @@
 ﻿using KeepSaving.Helpers;
 using KeepSaving.Models;
+using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -21,18 +23,33 @@ namespace KeepSaving.Controllers
             return View(model);
         }
 
-        public ActionResult About()
+        public ActionResult _TransactionsByMonth(int month, int year)
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            try
+            {
+                //get transactions
+                var householdId = User.Identity.GetHouseholdId();
+                var household = db.Households.Find(householdId);
+                var previousMonth = new DateTimeOffset(year, month - 1, 1, 0, 0, 0, new TimeSpan(-4, 0, 0));
+                var nextMonth = new DateTimeOffset(year, month + 1, 1, 0, 0, 0, new TimeSpan(-4, 0, 0));
+                var transactions = household.Accounts.SelectMany(m => m.Transactions).Where(t => t.Created.CompareTo(nextMonth) < 0 && t.Created.CompareTo(previousMonth) > 0 && t.TransactionType == TransactionType.Expense).ToList();
+                //y: transaction amount
+                //indexLabel: transaction category name
+                var data = (from item in transactions
+                            select new
+                            {
+                                y = item.Amount,
+                                indexLabel = item.BudgetCategory.Name,
+                            }).ToList();
+                ViewBag.DataPoints = JsonConvert.SerializeObject(data);
+                return PartialView();
+                //return Content(JsonConvert.SerializeObject(data), "application/json");
+            }
+            catch
+            {
+                return PartialView("_Error");
+            }
+            
         }
     }
 }

@@ -4,7 +4,7 @@
 }
 
 <div class="row">
-    <div class="col-md-5 content">
+    <div class="col-md-4 content">
         <h3>Accounts</h3>
         @foreach(var account in Model.Accounts)
         {
@@ -17,7 +17,7 @@
         }
     </div>
 
-    <div class="col-md-7" id="transactionsByMonth">
+    <div class="col-md-8" id="transactionsByMonth">
 
     </div>
 </div>
@@ -28,3 +28,23 @@
     </div>
 
 </div>
+
+@section Scripts {
+    <script type="text/javascript" language="javascript" src="~/Scripts/canvasjs.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#transactionsByMonth').load('@Url.Action("_TransactionsByMonth", "Home", new { month = 6, year = 2016 })');
+                //function (response) {
+                //    new CanvasJS.Chart("pieGraph", {
+                //        data: [
+                //        {
+                //            // Change type to "doughnut", "line", "splineArea", etc.
+                //            type: "pie",
+                //            dataPoints: response
+                //        }
+                //        ]
+                //    });
+        });
+    </script>
+    <script src="~/Scripts/LoadPartials.js"></script>
+}
