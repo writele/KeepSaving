@@ -40,10 +40,9 @@ namespace KeepSaving.Controllers
                             {
                                 y = item.Amount,
                                 indexLabel = item.BudgetCategory.Name,
-                            }).ToList();
-                ViewBag.DataPoints = JsonConvert.SerializeObject(data);
-                return PartialView();
-                //return Content(JsonConvert.SerializeObject(data), "application/json");
+                            }).ToArray();
+                //return PartialView();
+                return Content(JsonConvert.SerializeObject(data), "application/json");
             }
             catch
             {

@@ -17,7 +17,7 @@
         }
     </div>
 
-    <div class="col-md-8" id="transactionsByMonth">
+    <div class="col-md-8" id="transactionsByMonth" style="height: 300px;">
 
     </div>
 </div>
@@ -33,17 +33,20 @@
     <script type="text/javascript" language="javascript" src="~/Scripts/canvasjs.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('#transactionsByMonth').load('@Url.Action("_TransactionsByMonth", "Home", new { month = 6, year = 2016 })');
-                //function (response) {
-                //    new CanvasJS.Chart("pieGraph", {
-                //        data: [
-                //        {
-                //            // Change type to "doughnut", "line", "splineArea", etc.
-                //            type: "pie",
-                //            dataPoints: response
-                //        }
-                //        ]
-                //    });
+            $('#transactionsByMonth').load('@Url.Action("_TransactionsByMonth", "Home", new { month = 6, year = 2016 })', function (response) {
+               response = response.replace(/"(\w+)"\s*:/g, '$1:');
+               var chart = new CanvasJS.Chart("transactionsByMonth", {
+                    data: [
+                    {
+                        // Change type to "doughnut", "line", "splineArea", etc.
+                        type: "pie",
+                        dataPoints: response
+                    }
+                    ]
+               });
+               chart.render();
+               console.log(response);
+            });
         });
     </script>
     <script src="~/Scripts/LoadPartials.js"></script>

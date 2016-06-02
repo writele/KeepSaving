@@ -2,27 +2,5 @@
     
 @{ var DataPoints = ViewBag.DataPoints; }
 
-<h3>Transactions by Month</h3>
-
-<div class="col-md-10" id="pieGraph" style="height: 300px; width: 100%;">
-
-</div>
 
 
-@section Scripts {
-    <script>
-        $(document).ready(function () {
-                    new CanvasJS.Chart("pieGraph", {
-                        data: [
-                        {
-                            // Change type to "doughnut", "line", "splineArea", etc.
-                            type: "pie",
-                            dataPoints: @DataPoints
-                        }
-                        ]
-                    });
-                    //Load canvas chart
-                    chart.render();
-                });
-    </script>
-    }
