@@ -89,7 +89,7 @@ namespace KeepSaving.Controllers
                 var budgetData = (from item in budgetItems
                                        select new
                                        {
-                                           y = item.Amount,
+                                           y = item.Amount * item.Frequency / 12,
                                            label = item.BudgetCategory.Name,
                                        }).ToArray();
                 //return PartialView();

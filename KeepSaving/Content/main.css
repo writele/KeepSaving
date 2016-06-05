@@ -113,33 +113,39 @@ nav.navbar.navbar-default {
   }
 }
 /* line 121, main.scss */
-p, h2, h3, ul li, a, table {
+p, h2, h3, h4, ul li, a, table {
   font-family: "Roboto", "Arial", sans-serif;
 }
 
 /* line 125, main.scss */
-h2, h3 {
+h2, h3, h4 {
   margin: 5px 0 25px;
+  font-weight: 600;
 }
 
-/* line 129, main.scss */
+/* line 130, main.scss */
 a {
   color: #005F6B;
 }
 
-/* line 133, main.scss */
+/* line 134, main.scss */
 a:hover {
   color: #171535;
   text-decoration: none;
 }
 
-/* line 138, main.scss */
+/* line 139, main.scss */
 .content {
   box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.3);
   background: #AFD6AB;
   padding: 15px;
 }
-/* line 143, main.scss */
+/* line 144, main.scss */
 .content p {
   margin: 5px;
+}
+
+/* line 151, main.scss */
+.canvasjs-chart-container {
+  background-color: #EFFDE9;
 }

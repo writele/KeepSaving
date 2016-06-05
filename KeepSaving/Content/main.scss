@@ -118,12 +118,13 @@ nav.navbar.navbar-default {
 }
 
 // Fonts
-p, h2, h3, ul li, a, table {
+p, h2, h3, h4, ul li, a, table {
     font-family: $content-font;
 }
 
-h2, h3 {
+h2, h3, h4 {
     margin: 5px 0 25px;
+    font-weight: 600;
 }
 
 a {
@@ -143,4 +144,10 @@ a:hover {
     p {
         margin: 5px;
     }
+}
+
+//DASHBOARD
+
+.canvasjs-chart-container {
+    background-color: $bg-color;
 }

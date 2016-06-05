@@ -3,6 +3,7 @@
     ViewBag.Title = "Dashboard";
     string[] MonthStrings = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
     var CurrentMonth = DateTime.Now.Month;
+    var CurrentYear = DateTime.Now.Year;
 }
 
 <div class="row">
@@ -116,4 +117,18 @@
 @section Scripts {
     <script type="text/javascript" language="javascript" src="~/Scripts/canvasjs.min.js"></script>
     <script type="text/javascript" language="javascript" src="~/Scripts/Dashboard.js"></script>
+    <script>
+        $(document).ready(function () {
+            var dashboard = new Dashboard();
+            dashboard.EnableCharts();
+            $('#pieChart').load('/Home/_TransactionsByMonth/' + @CurrentMonth + '/' + @CurrentYear, function (response) {
+                dashboard.LoadTransactionsPieChart(response);
+                dashboard.SetDropDownSelected("transactionsByMonth", @CurrentMonth, @CurrentYear);
+            });
+
+            $('#comparisonChart').load('/Home/_BudgetVsTransactions/' + @CurrentMonth + '/' + @CurrentYear, function (response) {
+                dashboard.LoadBudgetVsTransactionsChart(response);
+            });
+        });
+    </script>
 }
