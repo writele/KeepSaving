@@ -10,16 +10,28 @@ $header-font: 'Lobster', 'Times New Roman', serif;
 $subheader-font:'Montserrat', sans-serif;
 $content-font: 'Roboto', 'Arial', sans-serif;
 
-@mixin button($bg-color, $font-color, $shadow-color) {
-    background: $bg-color;
-    color: $font-color;
-    box-shadow: 0 6px $shadow-color;
-    border-radius: 5px;
+@mixin button($bg-color, $shadow-color) {
+    background-color: $bg-color;
+	border-bottom: 5px solid $shadow-color;
+	//text-shadow: 0px -2px $shadow-color;
+    border-radius: 0;
+	position: relative;
+	padding: 7px 20px;
+    float: left;
+	font-family: 'Roboto';
+    font-weight: 400;
+	font-size: 1.1em;
+	color: #FFF;
+	text-decoration: none;
 }
 
-@mixin button-hover($shadow-color) {
-    box-shadow: 0 4px $shadow-color;
-    top: 2px;
+@mixin button-active {
+	transform: translate(0px,5px);
+    -webkit-transform: translate(0px,5px);
+	border-bottom: 1px solid;
+
+     transition: all 0.1s;
+	-webkit-transition: all 0.1s;
 }
 
 .float-right{
@@ -146,8 +158,11 @@ a:hover {
     }
 }
 
-//DASHBOARD
+.btn-default, .btn-default:hover, .btn-default:focus, .btn-default:visited {
+    @extend .fancy-border;
+    @include button($primary-color, $secondary-color-hover);
+}
 
-.canvasjs-chart-container {
-    background-color: $bg-color;
+.btn-default:active {
+    @include button-active;
 }

@@ -27,7 +27,6 @@ namespace KeepSaving.Controllers
         {
             try
             {
-                //get transactions
                 var householdId = User.Identity.GetHouseholdId();
                 var household = db.Households.Find(householdId);
                 var previousMonth = (month == 1) ? new DateTimeOffset(year - 1, 12, 1, 0, 0, 0, new TimeSpan(-4, 0, 0)) : new DateTimeOffset(year, month - 1, 1, 0, 0, 0, new TimeSpan(-4, 0, 0));
@@ -38,8 +37,6 @@ namespace KeepSaving.Controllers
                     return PartialView("_NoData");
                 }
                 var categories = household.Budget.BudgetItems.Select(b => b.BudgetCategory).Distinct().ToList();
-                //y: transaction amount
-                //indexLabel: transaction category name
                 var data = (from category in categories
                             let sum = (from item in transactions
                                        where item.BudgetCategoryId == category.Id
@@ -49,7 +46,6 @@ namespace KeepSaving.Controllers
                                 y = sum,
                                 indexLabel = category.Name,
                             }).ToArray();
-                //return PartialView();
                 return Content(JsonConvert.SerializeObject(data), "application/json");
             }
             catch
@@ -63,7 +59,6 @@ namespace KeepSaving.Controllers
         {
             try
             {
-                //get transactions
                 var householdId = User.Identity.GetHouseholdId();
                 var household = db.Households.Find(householdId);
                 var previousMonth = (month == 1) ? new DateTimeOffset(year - 1, 12, 1, 0, 0, 0, new TimeSpan(-4, 0, 0)) : new DateTimeOffset(year, month - 1, 1, 0, 0, 0, new TimeSpan(-4, 0, 0));
@@ -74,8 +69,6 @@ namespace KeepSaving.Controllers
                     return PartialView("_NoData");
                 }
                 var categories = household.Budget.BudgetItems.Select(b => b.BudgetCategory).Distinct().ToList();
-                //y: transaction amount
-                //indexLabel: transaction category name
                 var transactionData = (from category in categories
                             let sum = (from item in transactions
                                        where item.BudgetCategoryId == category.Id
@@ -92,8 +85,6 @@ namespace KeepSaving.Controllers
                                            y = item.Amount * item.Frequency / 12,
                                            label = item.BudgetCategory.Name,
                                        }).ToArray();
-                //return PartialView();
-                //return Json(new { transactionData, budgetData });
                 return Content(JsonConvert.SerializeObject(new { transactionData, budgetData }), "application/json");
             }
             catch
