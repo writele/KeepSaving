@@ -123,11 +123,12 @@
             dashboard.EnableCharts();
             $('#pieChart').load('/Home/_TransactionsByMonth/' + @CurrentMonth + '/' + @CurrentYear, function (response) {
                 dashboard.LoadTransactionsPieChart(response);
-                dashboard.SetDropDownSelected("transactionsByMonth", @CurrentMonth, @CurrentYear);
+                dashboard.SetDropDownSelected("#transactionsByMonth", @CurrentMonth, @CurrentYear);
             });
 
             $('#comparisonChart').load('/Home/_BudgetVsTransactions/' + @CurrentMonth + '/' + @CurrentYear, function (response) {
                 dashboard.LoadBudgetVsTransactionsChart(response);
+                dashboard.SetDropDownSelected("#budgetVsTransactions", @CurrentMonth, @CurrentYear);
             });
         });
     </script>

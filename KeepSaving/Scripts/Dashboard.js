@@ -64,9 +64,10 @@
                     });
                 chart.render();
             },
-            SetDropDownSelected: function(chartElement, month, year){
-                var monthDropdown = $("#" + chartElement + ".monthDropdown");
-                var yearDropdown = $("#" + chartElement + ".yearDropdown");
+
+            SetDropDownSelected: function (chartElement, month, year) {
+                var monthDropdown = $(chartElement + " .monthDropdown");
+                var yearDropdown = $(chartElement + " .yearDropdown");
                 monthDropdown.val(month).attr("selected");
                 yearDropdown.val(year).attr("selected");
             },
@@ -74,12 +75,12 @@
             EnableCharts:
 
             function () {
-
+                var that = this;
                 $("#displayTransactions").on("click", function () {
                     var month = $("#transactionsByMonth .monthDropdown").val();
                     var year = $("#transactionsByMonth .yearDropdown").val();
                     $('#pieChart').load('/Home/_TransactionsByMonth/' + month + '/' + year, function (response) {
-                        LoadTransactionsPieChart(response);
+                        that.LoadTransactionsPieChart(response);
                     });
                 });
 
@@ -87,8 +88,7 @@
                     var month = $("#budgetVsTransactions .monthDropdown").val();
                     var year = $("#budgetVsTransactions .yearDropdown").val();
                     $('#comparisonChart').load('/Home/_BudgetVsTransactions/' + month + '/' + year, function (response) {
-                        var object = $.parseJSON(response);
-                        LoadBudgetVsTransactionsChart(object);
+                        that.LoadBudgetVsTransactionsChart(response);
                     });
                 });
             }
