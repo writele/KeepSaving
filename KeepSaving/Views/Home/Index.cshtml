@@ -1,12 +1,14 @@
 ﻿@model KeepSaving.Models.Household
 @{
     ViewBag.Title = "Dashboard";
+    string[] MonthStrings = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
+    var CurrentMonth = DateTime.Now.Month;
 }
 
 <div class="row">
     <div class="col-md-4 content">
         <h3>Accounts</h3>
-        @foreach(var account in Model.Accounts)
+        @foreach (var account in Model.Accounts)
         {
             if (account.IsArchived == false)
             {
@@ -19,15 +21,93 @@
 
     <div class="col-md-8" id="transactionsByMonth">
         <h3>Transactions By Month</h3>
-        <div class="col-md-12" id="pieChart" style="height:300px; width:100%">
+        <div class="row">
+            <div class="col-md-3">
 
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <div class="col-md-8">
+                            <select name="month" class="monthDropdown">
+                                @for (var i = 0; i < 12; i++)
+                                {
+                                    var monthValue = i + 1;
+                                    <option value = "@monthValue">@MonthStrings.GetValue(i)</option>
+                                }
+                            </select>
+
+                        </div>
+                        <div class="col-md-4">
+                            <select name="year" class="yearDropdown">
+                                @for (var i = 0; i < 6; i++)
+                                {
+
+                                    <option>@(DateTime.Now.AddYears(i).Year)</option>
+                                }
+                            </select>
+                       </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <input type="submit" value="Display" class="btn btn-default" id="displayTransactions" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-9" id="pieChart" style="height:300px">
+
+            </div>
         </div>
-
     </div>
 </div>
 <div class="row">
-    <div class="col-md-12" id="budgetsVsTransactions">
+    <div class="col-md-12" id="budgetVsTransactions">
+        <h3>Budget vs. Transactions</h3>
+        <div class="row">
+            <div class="col-md-3">
 
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <div class="col-md-5">
+                            <select name="month" class="monthDropdown">
+                                @for (var i = 0; i < 12; i++)
+                                {
+                                    var monthValue = i + 1;
+                                    <option value="@monthValue">@MonthStrings.GetValue(i)</option>
+                                }
+                            </select>
+
+                        </div>
+                        <div class="col-md-4">
+                            <select name="year" class="yearDropdown">
+                                @for (var i = 0; i < 6; i++)
+                                {
+
+                                    <option>@(DateTime.Now.AddYears(i).Year)</option>
+                                }
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <input type="submit" value="Display" class="btn btn-default" id="displayBudgetVsTransactions" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-9" id="comparisonChart" style="height:300px">
+
+            </div>
+            
+        </div>
+        <br /><br /><br />
 
     </div>
 
@@ -35,23 +115,5 @@
 
 @section Scripts {
     <script type="text/javascript" language="javascript" src="~/Scripts/canvasjs.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#pieChart').load('@Url.Action("_TransactionsByMonth", "Home", new { month = 6, year = 2016 })', function (response) {
-               //response = response.replace(/"(\w+)"\s*:/g, '$1:');
-               var chart = new CanvasJS.Chart("pieChart", {
-                    data: [
-                    {
-                        // Change type to "doughnut", "line", "splineArea", etc.
-                        type: "pie",
-                        dataPoints: $.parseJSON(response)
-                    }
-                    ]
-               });
-               chart.render();
-               console.log(response);
-            });
-        });
-    </script>
-    <script src="~/Scripts/LoadPartials.js"></script>
+    <script type="text/javascript" language="javascript" src="~/Scripts/Dashboard.js"></script>
 }

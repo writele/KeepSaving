@@ -15,7 +15,7 @@ namespace KeepSaving
 
             routes.MapRoute(
             name: "FilterByDate",
-            url: "{controller}/{action}/{month}/{year}",
+            url: "Home/{action}/{month}/{year}",
             defaults: new { controller = "Home", action = "Index", month = UrlParameter.Optional, year = UrlParameter.Optional }
             );
 

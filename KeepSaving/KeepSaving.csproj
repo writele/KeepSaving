@@ -266,6 +266,7 @@
     <None Include="Properties\PublishProfiles\keepsaving.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\canvasjs.min.js" />
+    <Content Include="Scripts\Dashboard.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -333,6 +334,8 @@
     <Content Include="Views\Transactions\_ReconcileAccount.cshtml" />
     <Content Include="Views\Home\_TransactionsByMonth.cshtml" />
     <Content Include="Views\Home\_Error.cshtml" />
+    <Content Include="Views\Home\_NoData.cshtml" />
+    <Content Include="Views\Home\_BudgetVsTransactions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
