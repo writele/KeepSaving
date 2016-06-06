@@ -7,6 +7,7 @@
             LoadTransactionsPieChart: function (response) {
                 var chart = new CanvasJS.Chart("pieChart", {
                     backgroundColor: null,
+                    theme: "theme3",
                     data: [
                     {
                         type: "pie",

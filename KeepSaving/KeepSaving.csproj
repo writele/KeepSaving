@@ -336,6 +336,7 @@
     <Content Include="Views\Home\_Error.cshtml" />
     <Content Include="Views\Home\_NoData.cshtml" />
     <Content Include="Views\Home\_BudgetVsTransactions.cshtml" />
+    <Content Include="Views\Home\Unauthorized.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

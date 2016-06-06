@@ -46,8 +46,13 @@ namespace KeepSaving.Controllers
         // GET: Transaction/Details/2
         public ActionResult Details(int? id)
         {
+            var model = db.Accounts.Find(id);
+            var householdId = User.Identity.GetHouseholdId();
+            if (model.HouseholdId != householdId)
+            {
+                return RedirectToAction("Unauthorized", "Home");
+            }
             try {
-                var model = db.Accounts.Find(id);
                 return View(model);
             }
             catch

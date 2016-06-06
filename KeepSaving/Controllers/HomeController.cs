@@ -94,5 +94,10 @@ namespace KeepSaving.Controllers
 
         }
 
+        public ActionResult Unauthorized()
+        {
+            return View();
+        }
+
     }
 }

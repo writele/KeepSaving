@@ -146,6 +146,11 @@ a:hover {
 }
 
 /* line 161, main.scss */
+p {
+  font-size: 1.05em;
+}
+
+/* line 165, main.scss */
 .btn-default, .btn-default:hover, .btn-default:focus, .btn-default:visited {
   background-color: #005F6B;
   border-bottom: 5px solid #171535;
@@ -158,13 +163,18 @@ a:hover {
   font-size: 1.1em;
   color: #FFF;
   text-decoration: none;
+  transition: all 0.2s;
+  -webkit-transition: all 0.2s;
 }
 
-/* line 166, main.scss */
+/* line 170, main.scss */
 .btn-default:active {
   transform: translate(0px, 5px);
   -webkit-transform: translate(0px, 5px);
   border-bottom: 1px solid;
-  transition: all 0.1s;
-  -webkit-transition: all 0.1s;
+}
+
+/* line 174, main.scss */
+#socialLoginList .btn-default {
+  margin: 0 5px;
 }

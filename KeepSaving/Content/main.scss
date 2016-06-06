@@ -23,15 +23,15 @@ $content-font: 'Roboto', 'Arial', sans-serif;
 	font-size: 1.1em;
 	color: #FFF;
 	text-decoration: none;
+
+    transition: all 0.2s;
+	-webkit-transition: all 0.2s;
 }
 
 @mixin button-active {
 	transform: translate(0px,5px);
     -webkit-transform: translate(0px,5px);
 	border-bottom: 1px solid;
-
-     transition: all 0.1s;
-	-webkit-transition: all 0.1s;
 }
 
 .float-right{
@@ -158,6 +158,10 @@ a:hover {
     }
 }
 
+p {
+    font-size: 1.05em;
+}
+
 .btn-default, .btn-default:hover, .btn-default:focus, .btn-default:visited {
     @extend .fancy-border;
     @include button($primary-color, $secondary-color-hover);
@@ -165,4 +169,8 @@ a:hover {
 
 .btn-default:active {
     @include button-active;
+}
+
+#socialLoginList .btn-default {   
+        margin: 0 5px;
 }
