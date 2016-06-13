@@ -1,10 +1,9 @@
 ﻿@model KeepSaving.Models.Account
 @{var OriginalBalance = Model.Balance - Model.ReconciledAmount;}
-<link href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet" />
 @{
     ViewBag.Title = "Transactions";
 }
-
+<link href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet" />
 <h2>
     Transactions in @Model.Name
     <span class="float-right">Balance: $@Model.Balance</span>
@@ -99,18 +98,24 @@
         </table>
     </div>
 </div>
+<br /><br />
 
 @section Scripts {
     <script type="text/javascript" language="javascript" src="//cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/LoadPartials.js"></script>
+    <script src="~/Scripts/jquery.maskMoney.js"></script>
     <script>
         $(document).ready(function () {
             $(document).on('change', '#TransactionType', function () {
                 $("div#categories").toggle();
             });
 
-            $('#action').load('@Url.Action("_AddTransaction", "Transactions", new { id = Model.Id })');
+            $('#action').load('@Url.Action("_AddTransaction", "Transactions", new { id = Model.Id })', function() {
+                $('#Amount').maskMoney();
+            });
 
             $('.table').DataTable({
+                "order": [[ 1, "desc" ]],
                 "columns": [
                   null,
                   null,
@@ -121,8 +126,11 @@
                   { "orderable": false }
                 ]
             });
-
+           
         });
     </script>
-    <script src="~/Scripts/LoadPartials.js"></script>
+
 }
+
+
+

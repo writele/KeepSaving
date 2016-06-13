@@ -6,11 +6,13 @@
 
             LoadTransactionsPieChart: function (response) {
                 var chart = new CanvasJS.Chart("pieChart", {
-                    backgroundColor: null,
                     theme: "theme3",
+                    backgroundColor: null,
                     data: [
                     {
                         type: "pie",
+                        indexLabelFontFamily: "Roboto",
+                        indexLabelFontSize: 16,
                         dataPoints: $.parseJSON(response)
                     }
                     ]
@@ -29,7 +31,11 @@
                             shared: true
                         },
                         axisY: {
-                            title: "dollars"
+                            title: "Dollars ($)"
+                        },
+                        axisX: {
+                            labelFontFamily: "Roboto",
+                            labelFontSize: 16
                         },
                         data: [
                         {
@@ -51,6 +57,8 @@
 
                         ],
                         legend: {
+                            fontFamily: "Roboto",
+                            fontSize: 16,
                             cursor: "pointer",
                             itemclick: function (e) {
                                 if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {

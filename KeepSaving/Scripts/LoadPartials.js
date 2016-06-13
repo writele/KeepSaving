@@ -6,7 +6,9 @@
             var $actionDIV = $('#action');
             var $actionURL = '/' + controller + '/' + action + '/' + $id;
             var url = $(this).data($actionURL);
-            $actionDIV.load($actionURL);
+            $actionDIV.load($actionURL, function () {
+                $('#Amount').maskMoney();
+            });
         })
     }
 
