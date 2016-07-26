@@ -50,3 +50,4 @@ bin
 packages
 obj
 KeepSaving/Web.config
+KeepSaving/private.config
