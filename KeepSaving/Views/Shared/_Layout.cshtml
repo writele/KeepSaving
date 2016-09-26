@@ -48,6 +48,7 @@
                     </li>
 
                     @Html.Partial("_LoginPartial")
+                    @Url.Action("_editbudgetitem", "budget", new { id = @Model.id})
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
