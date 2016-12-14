@@ -7,7 +7,8 @@
             var $actionURL = '/' + controller + '/' + action + '/' + $id;
             var url = $(this).data($actionURL);
             $actionDIV.load($actionURL, function () {
-                $('#Amount').maskMoney();
+                $('#Amount').maskMoney({ thousands: '', decimal: '.' });
+                $('#ActualBalance').maskMoney({ thousands: '', decimal: '.' });
             });
         })
     }
