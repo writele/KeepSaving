@@ -80,7 +80,6 @@
                             </td>
                             <td>
                                 <a href="#" class="editTransaction" id="@item.Id"><i class="glyphicon glyphicon-pencil"></i></a>
-                                @Url.Action("_yourpartialview")
                                 <a href="#" class="deleteTransaction" id="@item.Id"><i class="glyphicon glyphicon-remove"></i></a>
                             </td>
                         </tr>
@@ -112,7 +111,7 @@
             });
 
             $('#action').load('@Url.Action("_AddTransaction", "Transactions", new { id = Model.Id })', function() {
-                $('#Amount').maskMoney();
+                $('#Amount').maskMoney({ thousands: '', decimal: '.' });
             });
 
             $('.table').DataTable({
